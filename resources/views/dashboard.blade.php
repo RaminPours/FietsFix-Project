@@ -15,15 +15,23 @@
         <div class="grid gap-6 md:grid-cols-2">
             @forelse ($afspraken as $afspraak)
                 <article class="min-w-0 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+                    <section class="relative">
+                        <img
+                            src="{{ asset('images/fietsfix.jpg') }}"
+                            alt="FietsFix"
+                            class="w-full h-[100px] object-cover"
+                        >
+                        <div class="absolute inset-0 bg-black/40"></div>
+                     </section>
                     <h2 class="text-xl font-bold text-gray-900">{{ $afspraak->fietsmerk }} · {{ $afspraak->fietstype }}</h2>
-                    <p class="mt-2 font-semibold text-green-700">{{ \Illuminate\Support\Carbon::parse($afspraak->datum)->format('d-m-Y') }} om {{ substr($afspraak->tijd, 0, 5) }}</p>
+                    <p class="mt-2 font-semibold text-green-700">Uw afspraak: {{ \Illuminate\Support\Carbon::parse($afspraak->datum)->format('d-m-Y') }} om {{ substr($afspraak->tijd, 0, 5) }}</p>
                     <dl class="mt-6 space-y-3 break-words text-gray-700">
                         <div><dt class="font-semibold">Probleem</dt><dd class="whitespace-pre-line">{{ $afspraak->probleem }}</dd></div>
                         <div><dt class="font-semibold">Naam</dt><dd>{{ $afspraak->naam }}</dd></div>
                         <div><dt class="font-semibold">E-mail</dt><dd>{{ $afspraak->email }}</dd></div>
                         <div><dt class="font-semibold">Telefoonnummer</dt><dd>{{ $afspraak->telefoonnummer }}</dd></div>
                     </dl>
-                    <p class="mt-6 text-sm text-gray-500">Wij bellen je wanneer je fiets klaar is.</p>
+                    <p class="mt-6 text-sm text-gray-500">Wij bellen u wanneer uw fiets klaar is.</p>
                     <form action="{{ route('afspraken.delete', $afspraak->id) }}" method="POST" class="mt-4" onsubmit="return confirm('Weet je zeker dat je deze afspraak wilt verwijderen?')">
                         @csrf
                         @method('DELETE')

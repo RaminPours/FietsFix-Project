@@ -139,14 +139,16 @@
                             Tijd
                         </label>
                         <input
-                            type="time"
-                            id="tijd"
-                            name="tijd"
+                        type="time"
+                        id="tijd"
+                        name="tijd"
                         value="{{ old('tijd') }}"
-                            required
-                            class="w-full rounded-lg border border-gray-300 px-4 py-2.5
-                                   focus:border-green-500 focus:ring-2 focus:ring-green-200 outline-none"
-                        >
+                        min="08:00"
+                        max="17:00"
+                        required
+                        class="w-full rounded-lg border border-gray-300 px-4 py-2.5
+                            focus:border-green-500 focus:ring-2 focus:ring-green-200 outline-none"
+                    >
                     </div>
                 </div>
 

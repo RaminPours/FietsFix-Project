@@ -35,18 +35,67 @@
         </p>
     </div>
 
-    <h1 class="text-1xl text-gray-900 mt-8 max-w-3xl">
-       Wil je een onderhoudsbeurt aan je elektrische fiets, stadsfiets of bakfiets laten uitvoeren? Wij controleren jouw fiets op de belangrijkste onderdelen en dat voor een vaste prijs. Bekijk de onderhoudsprijzen voor jouw fiets en maak eenvoudig online een afspraak op een moment dat het voor jou het beste uitkomst.
-    </h1>
-    <br>
-    <h1 class="text-1xl text-gray-900 mt-8 max-w-3xl">
-       <strong>Onderhoudsbeurt e-bike of stadsfiets</strong><br>
+<div class="mt-16 grid grid-cols-2 gap-0 items-start">
 
-        Regelmatig onderhoud aan je elektrische fiets, stadsfiets of bakfiets zorgt er voor je fiets in een goede conditie blijft. Ook voorkomt dit reparaties in de toekomst. Een gesmeerde ketting gaat veel langer mee dan een droge of roestige ketting. Als je spaken bijvoorbeeld los zitten, dan worden deze aangedraaid. Hiermee voorkom je kapotte spaken of een slag in je wiel. Een klein rateltje in je fiets of doortrappen door slecht afgestelde versnellingen kan in de toekomst voor grotere problemen zorgen. Tijdens een onderhoudsbeurt aan je e-bike of stadsfiets worden onder andere deze zaken daarom uitvoerig geïnspecteerd.
-    </h1>
+    <!-- Blauwe tekst linksboven -->
+    <section class="bg-blue-900 text-white min-h-[400px] flex items-center justify-start px-6 py-10">
+        <div class="text-left">
+            <h2 class="font-bold text-3xl mb-4">
+                Service en onderhoud
+            </h2>
+
+            <p class="text-base leading-relaxed">
+                Goed onderhoud verlengt de levensduur van je e-bike en voorkomt verrassingen.
+                Daarom nemen wij service en onderhoud serieus. Onze moderne werkplaats is
+                volledig ingericht voor e-bikes en LEV-voertuigen. Onderhoud en reparaties
+                worden uitgevoerd door ervaren monteurs met de juiste kennis en apparatuur.
+                We werken volgens fabrieksrichtlijnen en gebruiken waar nodig originele
+                onderdelen. Zo blijft je e-bike betrouwbaar, veilig en in topconditie.
+                Je kunt eenvoudig online een onderhoudsafspraak inplannen. Is er meer aan
+                de hand? Dan nemen we vooraf contact met je op. Geen onverwachte kosten,
+                wel duidelijke afspraken.
+            </p>
+        </div>
+    </section>
+
     
+    <img
+        src="{{ asset('images/repair.jpg') }}"
+        alt="Fietsreparatie"
+        class="w-full h-[400px] object-cover"
+    >
 
     
+    <img
+        src="{{ asset('images/repair2.jpg') }}"
+        alt="Onderhoud aan een fiets"
+        class="w-full h-[400px] object-cover"
+    >
 
+    <section class="bg-blue-900 text-white min-h-[400px] flex items-center justify-start px-6 py-10">
+        <div class="text-left">
+            <h2 class="font-bold text-3xl mb-4">
+                Monteurs die hun vak verstaan en vooruitkijken
+            </h2>
+
+            <p class="text-base leading-relaxed">
+                Onze monteurs werken elke dag met e-bikes, bakfietsen en andere elektrische voertuigen. Ze weten precies hoe ze een storing snel kunnen vinden en netjes oplossen. We gebruiken onderdelen die lang meegaan en geven eerlijk advies over wat slim is voor later. Dat kan een kleine afstelling zijn, een accucheck of een tip om problemen te voorkomen. Zo blijft uw fiets betrouwbaar, veilig en klaar voor heel wat kilometers, thuis en onderweg.
+            </p>
+        </div>
+    </section>
+
+    <section class="bg-blue-900 text-white min-h-[400px] flex items-center justify-start px-6 py-10">
+        <div class="text-left">
+            <h2 class="font-bold text-3xl mb-4">
+                Prijzen onderhoud
+            </h2>
+
+            <p class="text-base leading-relaxed">
+                
+            </p>
+        </div>
+    </section>
+    
+</div>
 
 @endsection
