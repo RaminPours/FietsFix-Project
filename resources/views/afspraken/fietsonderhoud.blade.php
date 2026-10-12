@@ -1,52 +1,9 @@
 @extends('layouts.app')
-
 @section('content')
-
-<section class="relative">
-
-        <img
-            src="{{ asset('images/fietsrep.jpg') }}"
-            alt="FietsFix"
-            class="w-full h-[500px] object-cover"
-        >
-
-        <!-- Overlay -->
-        <div class="absolute inset-0 bg-black/40"></div>
-
-        <!-- Hero tekst -->
-        <div class="absolute inset-0 flex items-center justify-center text-center px-6">
-
-            <div class="text-white">
-
-                <p class="text-4xl md:text-6xl font-bold">
-                    Fietsonderhoud
-                </p>
-
-            </div>
-
-        </div>
-
-    </section>
-
-     <!-- ANWB PAS -->
-    <div class="bg-red-500 text-white text-center py-3">
-        <p class="font-bold text-lg">
-            🎉 Voordeel met je ANWB ledenpas!
-        </p>
-    </div>
-
-    <h1 class="text-1xl text-gray-900 mt-8 max-w-3xl">
-       Wil je een onderhoudsbeurt aan je elektrische fiets, stadsfiets of bakfiets laten uitvoeren? Wij controleren jouw fiets op de belangrijkste onderdelen en dat voor een vaste prijs. Bekijk de onderhoudsprijzen voor jouw fiets en maak eenvoudig online een afspraak op een moment dat het voor jou het beste uitkomst.
-    </h1>
-    <br>
-    <h1 class="text-1xl text-gray-900 mt-8 max-w-3xl">
-       <strong>Onderhoudsbeurt e-bike of stadsfiets</strong><br>
-
-        Regelmatig onderhoud aan je elektrische fiets, stadsfiets of bakfiets zorgt er voor je fiets in een goede conditie blijft. Ook voorkomt dit reparaties in de toekomst. Een gesmeerde ketting gaat veel langer mee dan een droge of roestige ketting. Als je spaken bijvoorbeeld los zitten, dan worden deze aangedraaid. Hiermee voorkom je kapotte spaken of een slag in je wiel. Een klein rateltje in je fiets of doortrappen door slecht afgestelde versnellingen kan in de toekomst voor grotere problemen zorgen. Tijdens een onderhoudsbeurt aan je e-bike of stadsfiets worden onder andere deze zaken daarom uitvoerig geïnspecteerd.
-    </h1>
-    
-
-    
-
-
+<x-page-hero image="fietsrep.jpg" eyebrow="Fietsonderhoud" title="Goed onderhouden. Lekker fietsen." description="Een soepel lopende ketting, goed afgestelde remmen en banden op spanning. Kleine details zorgen samen voor een fijne rit."><a href="{{ route('afspraken.create') }}" class="ff-primary">Plan een onderhoudsbeurt ↗</a><a href="#controle" class="ff-button border border-white/40 text-white hover:bg-white/10">Wat controleren we? ↓</a></x-page-hero>
+<section id="controle" class="ff-section"><div class="max-w-2xl"><p class="ff-eyebrow">Aandacht voor je fiets</p><h2 class="ff-title">De belangrijkste onderdelen in beeld.</h2><p class="mt-5 leading-relaxed text-slate-600">Regelmatig onderhoud helpt slijtage op tijd te herkennen. Dit zijn onderdelen die tijdens een onderhoudsbeurt aandacht krijgen.</p></div><div class="mt-9 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+@foreach ([['01', 'Remmen', 'Controle van de werking, slijtage en afstelling van je remmen.'], ['02', 'Banden & wielen', 'Aandacht voor bandenspanning, bandenprofiel, spaken en de loop van je wielen.'], ['03', 'Ketting & aandrijving', 'Controle van slijtage en smering voor een soepel lopende aandrijving.'], ['04', 'Versnellingen', 'Controle van de afstelling, zodat je prettig kunt schakelen.']] as [$number, $heading, $text])<article class="ff-card"><span class="text-sm font-bold text-teal-600">{{ $number }}</span><h3 class="mt-5 text-xl font-bold text-slate-900">{{ $heading }}</h3><p class="mt-3 leading-relaxed text-slate-600">{{ $text }}</p></article>@endforeach
+</div></section>
+<section class="bg-slate-50"><div class="ff-section grid gap-10 md:grid-cols-2"><div><p class="ff-eyebrow">Tussen de onderhoudsbeurten</p><h2 class="ff-title">Een beetje aandacht helpt.</h2><p class="mt-5 leading-relaxed text-slate-600">Controleer regelmatig je bandenspanning en houd je ketting schoon en gesmeerd. Hoor je een nieuw geluid of voelt je fiets anders? Geef het door bij je afspraak.</p></div><div class="ff-card"><h3 class="text-xl font-bold text-slate-900">Twijfel je wat er nodig is?</h3><p class="mt-4 leading-relaxed text-slate-600">Beschrijf de klacht, het type fiets en wanneer het probleem optreedt. Zo kunnen we je vraag beter beoordelen. Neem voor de actuele prijs en mogelijkheden contact met ons op.</p><a href="{{ route('contact') }}" class="ff-link mt-6">Stel je onderhoudsvraag →</a></div></div></section>
+<x-service-cta />
 @endsection
