@@ -18,19 +18,31 @@
             <div id="navigation-links" :class="{ 'hidden': !open }" class="hidden w-full border-t border-slate-100 pb-4 pt-3 lg:flex lg:w-auto lg:items-center lg:gap-6 lg:border-0 lg:p-0">
                 <div class="flex flex-col gap-1 lg:flex-row lg:items-center">
                     @foreach (['home' => 'Home', 'fietssoorten' => 'Fietssoorten', 'fietsonderhoud' => 'Fietsonderhoud', 'contact' => 'Contact'] as $routeName => $label)
-                        <a href="{{ route($routeName) }}" @if(request()->routeIs($routeName)) aria-current="page" @endif class="{{ $linkClass }} {{ request()->routeIs($routeName) ? 'bg-teal-50 text-teal-800' : $inactiveClass }}">{{ $label }}</a>
+                        <a href="{{ route($routeName) }}" @if(request()->routeIs($routeName)) aria-current="page" @endif class="{{ $linkClass }} {{ request()->routeIs($routeName) ? 'bg-teal-50 text-teal-800' : $inactiveClass }}">
+                            {{ $label }}
+                        </a>
                     @endforeach
                 </div>
                 <div class="mt-3 flex flex-col gap-2 border-t border-slate-100 pt-3 lg:mt-0 lg:flex-row lg:items-center lg:border-l lg:border-t-0 lg:pl-6 lg:pt-0">
                     @guest
-                        <a href="{{ route('login') }}" @if(request()->routeIs('login')) aria-current="page" @endif class="{{ $linkClass }} {{ request()->routeIs('login') ? 'bg-teal-50 text-teal-800' : $inactiveClass }}">Inloggen</a>
-                        <a href="{{ route('register') }}" @if(request()->routeIs('register')) aria-current="page" @endif class="{{ $primaryClass }}">Registreren</a>
+                        <a href="{{ route('login') }}" @if(request()->routeIs('login')) aria-current="page" @endif class="{{ $linkClass }} {{ request()->routeIs('login') ? 'bg-teal-50 text-teal-800' : $inactiveClass }}">
+                            Inloggen
+                        </a>
+                        <a href="{{ route('register') }}" @if(request()->routeIs('register')) aria-current="page" @endif class="{{ $primaryClass }}">
+                            Registreren
+                        </a>
                     @else
-                        <a href="{{ route('dashboard') }}" @if(request()->routeIs('dashboard', 'afspraken.*')) aria-current="page" @endif class="{{ $primaryClass }}">Afspraak inzien</a>
-                        <a href="{{ route('profile.edit') }}" @if(request()->routeIs('profile.*')) aria-current="page" @endif class="{{ $linkClass }} {{ request()->routeIs('profile.*') ? 'bg-teal-50 text-teal-800' : $inactiveClass }}">Profiel</a>
+                        <a href="{{ route('dashboard') }}" @if(request()->routeIs('dashboard', 'afspraken.*')) aria-current="page" @endif class="{{ $primaryClass }}">
+                            Afspraak inzien
+                        </a>
+                        <a href="{{ route('profile.edit') }}" @if(request()->routeIs('profile.*')) aria-current="page" @endif class="{{ $linkClass }} {{ request()->routeIs('profile.*') ? 'bg-teal-50 text-teal-800' : $inactiveClass }}">
+                            Profiel
+                        </a>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <button type="submit" class="{{ $linkClass }} {{ $inactiveClass }} w-full text-left">Uitloggen</button>
+                            <button type="submit" class="{{ $linkClass }} {{ $inactiveClass }} w-full text-left">
+                                Uitloggen
+                            </button>
                         </form>
                     @endguest
                 </div>

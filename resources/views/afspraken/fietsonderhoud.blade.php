@@ -1,9 +1,79 @@
 @extends('layouts.app')
+
 @section('content')
-<x-page-hero image="fietsrep.jpg" eyebrow="Fietsonderhoud" title="Goed onderhouden. Lekker fietsen." description="Een soepel lopende ketting, goed afgestelde remmen en banden op spanning. Kleine details zorgen samen voor een fijne rit."><a href="{{ route('afspraken.create') }}" class="ff-primary">Plan een onderhoudsbeurt ↗</a><a href="#controle" class="ff-button border border-white/40 text-white hover:bg-white/10">Wat controleren we? ↓</a></x-page-hero>
-<section id="controle" class="ff-section"><div class="max-w-2xl"><p class="ff-eyebrow">Aandacht voor je fiets</p><h2 class="ff-title">De belangrijkste onderdelen in beeld.</h2><p class="mt-5 leading-relaxed text-slate-600">Regelmatig onderhoud helpt slijtage op tijd te herkennen. Dit zijn onderdelen die tijdens een onderhoudsbeurt aandacht krijgen.</p></div><div class="mt-9 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-@foreach ([['01', 'Remmen', 'Controle van de werking, slijtage en afstelling van je remmen.'], ['02', 'Banden & wielen', 'Aandacht voor bandenspanning, bandenprofiel, spaken en de loop van je wielen.'], ['03', 'Ketting & aandrijving', 'Controle van slijtage en smering voor een soepel lopende aandrijving.'], ['04', 'Versnellingen', 'Controle van de afstelling, zodat je prettig kunt schakelen.']] as [$number, $heading, $text])<article class="ff-card"><span class="text-sm font-bold text-teal-600">{{ $number }}</span><h3 class="mt-5 text-xl font-bold text-slate-900">{{ $heading }}</h3><p class="mt-3 leading-relaxed text-slate-600">{{ $text }}</p></article>@endforeach
-</div></section>
-<section class="bg-slate-50"><div class="ff-section grid gap-10 md:grid-cols-2"><div><p class="ff-eyebrow">Tussen de onderhoudsbeurten</p><h2 class="ff-title">Een beetje aandacht helpt.</h2><p class="mt-5 leading-relaxed text-slate-600">Controleer regelmatig je bandenspanning en houd je ketting schoon en gesmeerd. Hoor je een nieuw geluid of voelt je fiets anders? Geef het door bij je afspraak.</p></div><div class="ff-card"><h3 class="text-xl font-bold text-slate-900">Twijfel je wat er nodig is?</h3><p class="mt-4 leading-relaxed text-slate-600">Beschrijf de klacht, het type fiets en wanneer het probleem optreedt. Zo kunnen we je vraag beter beoordelen. Neem voor de actuele prijs en mogelijkheden contact met ons op.</p><a href="{{ route('contact') }}" class="ff-link mt-6">Stel je onderhoudsvraag →</a></div></div></section>
-<x-service-cta />
+    <x-page-hero
+        image="fietsrep.jpg"
+        eyebrow="Fietsonderhoud"
+        title="Goed onderhouden. Lekker fietsen."
+        description="Een soepel lopende ketting, goed afgestelde remmen en banden op spanning. Kleine details zorgen samen voor een fijne rit."
+    >
+        <a href="{{ route('afspraken.create') }}" class="ff-primary">
+            Plan een onderhoudsbeurt ↗
+        </a>
+        <a href="#controle" class="ff-button border border-white/40 text-white hover:bg-white/10">
+            Wat controleren we? ↓
+        </a>
+    </x-page-hero>
+    <section id="controle" class="ff-section">
+        <div class="max-w-2xl">
+            <p class="ff-eyebrow">
+                Aandacht voor je fiets
+            </p>
+            <h2 class="ff-title">
+                De belangrijkste onderdelen in beeld.
+            </h2>
+            <p class="mt-5 leading-relaxed text-slate-600">
+                Regelmatig onderhoud helpt slijtage op tijd te herkennen. Dit zijn onderdelen die tijdens een onderhoudsbeurt aandacht krijgen.
+            </p>
+        </div>
+        <div class="mt-9 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            @foreach ([
+                ['01', 'Remmen', 'Controle van de werking, slijtage en afstelling van je remmen.'],
+                ['02', 'Banden & wielen', 'Aandacht voor bandenspanning, bandenprofiel, spaken en de loop van je wielen.'],
+                ['03', 'Ketting & aandrijving', 'Controle van slijtage en smering voor een soepel lopende aandrijving.'],
+                ['04', 'Versnellingen', 'Controle van de afstelling, zodat je prettig kunt schakelen.'],
+            ] as [$number, $heading, $text])
+                <article class="ff-card">
+                    <span class="text-sm font-bold text-teal-600">
+                        {{ $number }}
+                    </span>
+                    <h3 class="mt-5 text-xl font-bold text-slate-900">
+                        {{ $heading }}
+                    </h3>
+                    <p class="mt-3 leading-relaxed text-slate-600">
+                        {{ $text }}
+                    </p>
+                </article>
+            @endforeach
+        </div>
+    </section>
+
+    <section class="bg-slate-50">
+        <div class="ff-section grid gap-10 md:grid-cols-2">
+            <div>
+                <p class="ff-eyebrow">
+                    Tussen de onderhoudsbeurten
+                </p>
+                <h2 class="ff-title">
+                    Een beetje aandacht helpt.
+                </h2>
+                <p class="mt-5 leading-relaxed text-slate-600">
+                    Controleer regelmatig je bandenspanning en houd je ketting schoon en gesmeerd. Hoor je een nieuw geluid of voelt je fiets anders? Geef het door bij je afspraak.
+                </p>
+            </div>
+            <div class="ff-card">
+                <h3 class="text-xl font-bold text-slate-900">
+                    Twijfel je wat er nodig is?
+                </h3>
+                <p class="mt-4 leading-relaxed text-slate-600">
+                    Beschrijf de klacht, het type fiets en wanneer het probleem optreedt. Zo kunnen we je vraag beter beoordelen. Neem voor de actuele prijs en mogelijkheden contact met ons op.
+                </p>
+                <a href="{{ route('contact') }}" class="ff-link mt-6">
+                    Stel je onderhoudsvraag →
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <x-service-cta />
 @endsection
