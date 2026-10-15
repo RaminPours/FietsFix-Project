@@ -13,10 +13,14 @@
         <div class="flex flex-wrap items-center justify-center gap-1">
             @foreach ([
                 'home' => 'Home',
-                'fietssoorten' => 'Fietssoorten',
+                'winkel.index' => 'FietsFix Webshop',
+                'merken' => 'Merken',
                 'fietsonderhoud' => 'Fietsonderhoud',
                 'contact' => 'Contact'
             ] as $routeName => $label)
+                @if ($routeName === 'winkel.index')
+                    @include('winkel.menu')
+                @else
                 <a
                     href="{{ route($routeName) }}"
                     @if(request()->routeIs($routeName))
@@ -26,9 +30,14 @@
                 >
                     {{ $label }}
                 </a>
+                @endif
             @endforeach
         </div>
         <div class="flex flex-wrap items-center justify-end gap-2">
+            {{-- Tel alle aantallen in de sessie op voor de teller naast het mandje. --}}
+            <a href="{{ route('winkelmand.index') }}" class="ff-nav-link {{ request()->routeIs('winkelmand.*', 'afrekenen.*') ? 'ff-nav-active' : 'ff-nav-inactive' }}">
+                Winkelmandje ({{ array_sum(session('winkelmand', [])) }})
+            </a>
             @guest
                 <a
                     href="{{ route('login') }}"
@@ -49,6 +58,9 @@
                     Registreren
                 </a>
             @else
+                <a href="{{ route('bestellingen.index') }}" class="ff-nav-link {{ request()->routeIs('bestellingen.*') ? 'ff-nav-active' : 'ff-nav-inactive' }}">
+                    Mijn bestellingen
+                </a>
                 <a
                     href="{{ route('dashboard') }}"
                     @if(request()->routeIs('dashboard', 'afspraken.*'))

@@ -52,6 +52,30 @@
         @apply bg-teal-50 text-teal-800;
     }
 
+    /* Het webshopmenu is dicht totdat de klant het gebruikt. */
+    .ff-shop-dropdown {
+        display: none;
+    }
+
+    /* Toetsenbordgebruikers openen het menu met Tab en bereiken daarna de links. */
+    .ff-shop-menu:has(:focus-visible) > .ff-shop-dropdown {
+        display: block;
+    }
+
+    /* Met een muis: open boven de knop of het menu, dicht zodra de muis weggaat. */
+    @media (hover: hover) and (pointer: fine) {
+        .ff-shop-menu:hover > .ff-shop-dropdown {
+            display: block;
+        }
+    }
+
+    /* Op een touchscreen opent een tik het menu. Tik erbuiten om het te sluiten. */
+    @media (hover: none), (pointer: coarse) {
+        .ff-shop-menu:focus-within > .ff-shop-dropdown {
+            display: block;
+        }
+    }
+
     /* Dezelfde opmaak voor alle velden in het afspraakformulier. */
     .ff-input {
         @apply w-full rounded-lg border border-gray-300 px-4 py-2.5 focus:border-green-500 focus:ring-2 focus:ring-green-200 outline-none;

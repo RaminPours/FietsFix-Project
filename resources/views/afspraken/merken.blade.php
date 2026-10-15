@@ -41,7 +41,7 @@
 
     <section class="bg-slate-50">
         <div class="ff-section grid gap-10 md:grid-cols-2 md:items-center">
-            <img src="{{ asset('images/e-bike2.jpg') }}" alt="Elektrische fiets" loading="lazy" class="h-80 w-full rounded-3xl object-cover">
+            <img src="{{ asset('images/e-bike2.jpg') }}" alt="Elektrische fiets" loading="lazy" class="mx-auto h-auto w-[90%] rounded-3xl">
             <div>
                 <p class="ff-eyebrow">
                     Alle merken welkom
@@ -52,9 +52,9 @@
                 <p class="mt-5 leading-relaxed text-slate-600">
                     We voeren onderhoud uit aan onder andere deze merken. Staat jouw merk er niet bij? Neem gerust contact op.
                 </p>
-                <ul class="mt-6 flex flex-wrap gap-2">
-                    @foreach (['Batavus', 'Giant', 'Gazelle', 'Sparta', 'Stella', 'Cortina'] as $brand)
-                        <li class="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700">
+                <ul class="mt-6 grid grid-cols-4 gap-2">
+                    @foreach (['Batavus', 'Giant', 'Gazelle', 'Sparta', 'Stella', 'Cortina', 'Trek', 'Cube'] as $brand)
+                        <li class="rounded-full border border-slate-200 bg-white px-2 py-2 text-center text-sm font-semibold text-slate-700">
                             {{ $brand }}
                         </li>
                     @endforeach

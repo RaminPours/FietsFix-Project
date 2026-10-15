@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 440">
+<rect width="720" height="440" rx="24" fill="#eff6f4"/>
+<rect x="240" y="95" width="180" height="260" rx="55" fill="#314b50"/><rect x="265" y="120" width="130" height="195" rx="40" fill="#d95c54"/><path d="M295 155v110m35-110v110m35-110v110" stroke="#ffb2a2" stroke-width="10" stroke-linecap="round"/><rect x="310" y="330" width="40" height="10" rx="5" fill="#91a9a2"/>
+<text x="36" y="410" font-family="sans-serif" font-size="14" fill="#59726e">FietsFix · productillustratie</text>
+</svg>

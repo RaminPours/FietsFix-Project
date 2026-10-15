@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Afspraken;
+use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 class AfsprakenController extends Controller
 {
@@ -15,7 +19,46 @@ class AfsprakenController extends Controller
 
     public function create()
     {
-        return view('afspraken.create');
+        // Haal de eerder ingevulde velden op, zodat de gebruiker niets opnieuw hoeft in te vullen.
+        $selectie = session()->getOldInput();
+
+        // Controleer eerst of de vestiging en datum geldig zijn.
+        $beschikbaarheidGeladen = Validator::make($selectie, [
+            'vestiging' => ['required', 'string', Rule::in(config('vestigingen.locaties'))],
+            'datum' => ['required', 'date_format:Y-m-d', 'after_or_equal:today'],
+        ])->passes();
+
+        $bezetteTijden = [];
+        $volgeboekt = false;
+
+        if ($beschikbaarheidGeladen) {
+            // Zoek de afspraken voor deze vestiging op deze datum.
+            $afspraken = Afspraken::where('vestiging', $selectie['vestiging'])
+                ->whereDate('datum', $selectie['datum'])
+                ->get();
+
+            foreach ($afspraken as $afspraak) {
+                // Maak van bijvoorbeeld 10:30:00 alleen 10:30 voor de keuzelijst.
+                $bezetteTijden[] = substr($afspraak->tijd, 0, 5);
+            }
+
+            // De dag is vol, tenzij we minstens één vrij tijdstip vinden.
+            $volgeboekt = true;
+
+            foreach (Afspraken::tijdstippen() as $tijdstip) {
+                if (!in_array($tijdstip, $bezetteTijden)) {
+                    $volgeboekt = false;
+                    break;
+                }
+            }
+        }
+
+        // Geef de resultaten door aan het formulier.
+        return view('afspraken.create', [
+            'bezetteTijden' => $bezetteTijden,
+            'beschikbaarheidGeladen' => $beschikbaarheidGeladen,
+            'volgeboekt' => $volgeboekt,
+        ]);
     }
 
     public function contact()
@@ -28,27 +71,67 @@ class AfsprakenController extends Controller
         return view('afspraken.fietsonderhoud');
     }
 
-    public function fietssoorten()
+    public function Merken()
     {
-        return view('afspraken.fietssoorten');
+        return view('afspraken.Merken');
     }
 
     public function store(Request $request)
     {
+        // Deze knop vraagt alleen beschikbare tijden op en maakt nog geen afspraak.
+        if ($request->input('actie') === 'beschikbaarheid') {
+            $request->validate([
+                'vestiging' => ['required', 'string', Rule::in(config('vestigingen.locaties'))],
+                'datum' => ['required', 'date_format:Y-m-d', 'after_or_equal:today'],
+            ]);
+
+            // Ga terug naar het formulier en bewaar de ingevulde velden met withInput().
+            return redirect()->route('afspraken.create')->withInput($request->only([
+                'vestiging', 'datum', 'tijd', 'naam', 'email', 'telefoonnummer',
+                'fietstype', 'fietsmerk', 'probleem',
+            ]));
+        }
+
+        // Bij 'Afspraak inplannen' moeten alle gegevens geldig zijn.
         $validated = $request->validate([
             'naam' => ['required', 'string', 'max:250'],
             'email' => ['required', 'email', 'max:250'],
             'telefoonnummer' => ['required', 'string', 'max:20'],
+            'vestiging' => ['required', 'string', Rule::in(config('vestigingen.locaties'))],
             'fietstype' => ['required', 'string', 'max:250'],
             'fietsmerk' => ['required', 'string', 'max:250'],
             'probleem' => ['required', 'string', 'max:500'],
             'datum' => ['required', 'date', 'after_or_equal:today'],
-            'tijd' => ['required', 'date_format:H:i'],
+            'tijd' => ['required', 'date_format:H:i', Rule::in(Afspraken::tijdstippen())],
+        ], [
+            'vestiging.required' => 'Kies een vestiging voor uw afspraak.',
+            'vestiging.in' => 'Kies een geldige vestiging.',
+            'tijd.in' => 'Kies een tijd tussen 08:00 en 17:00, in stappen van een kwartier.',
         ]);
 
-        $validated['user_id'] = Auth::id();
+        $bezetMelding = 'Dit tijdstip zit vol bij de gekozen vestiging. Kies een andere datum of tijd.';
 
-        Afspraken::create($validated);
+        // Controleer opnieuw: iemand kan dit tijdstip ondertussen hebben geboekt.
+        $tijdstipBezet = Afspraken::where('vestiging', $validated['vestiging'])
+            ->whereDate('datum', $validated['datum'])
+            ->whereTime('tijd', $validated['tijd'].':00')
+            ->exists();
+
+        if ($tijdstipBezet) {
+            throw ValidationException::withMessages(['tijd' => $bezetMelding]);
+        }
+
+        // Koppel de afspraak aan de ingelogde gebruiker en voeg seconden toe aan de tijd.
+        $validated['user_id'] = Auth::id();
+        $validated['tijd'] .= ':00';
+
+        try {
+            // Sla de afspraak op in de database.
+            Afspraken::create($validated);
+        } catch (UniqueConstraintViolationException $exception) {
+            // De database voorkomt ook dubbele boekingen als twee mensen tegelijk boeken.
+            throw ValidationException::withMessages(['tijd' => $bezetMelding]);
+        }
 
         return redirect()->route('dashboard')
             ->with('success', 'Uw afspraak is succesvol gemaakt.');
@@ -56,6 +139,7 @@ class AfsprakenController extends Controller
 
     public function dashboard()
     {
+        // Laat alleen de afspraken van de ingelogde gebruiker zien, nieuwste eerst.
         $afspraken = Afspraken::where('user_id', Auth::id())
             ->latest()
             ->get();
@@ -65,6 +149,7 @@ class AfsprakenController extends Controller
 
     public function delete(int $id)
     {
+        // Zoek alleen in de eigen afspraken, zodat je geen afspraak van een ander kunt verwijderen.
         $afspraak = Afspraken::whereKey($id)
             ->where('user_id', Auth::id())
             ->firstOrFail();

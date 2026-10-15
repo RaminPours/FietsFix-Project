@@ -35,6 +35,10 @@
                             </p>
                             <dl class="mt-6 space-y-3 break-words text-gray-700">
                                 <div>
+                                    <dt class="font-semibold">Vestiging</dt>
+                                    <dd>{{ $afspraak->vestiging ?? 'Niet opgegeven' }}</dd>
+                                </div>
+                                <div>
                                     <dt class="font-semibold">
                                         Probleem
                                     </dt>

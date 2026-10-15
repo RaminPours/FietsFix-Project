@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <x-page-hero image="image.png" eyebrow="Contact & hulp" title="Hoe kunnen we je helpen?" description="Een vraag over onderhoud, jouw type fiets of een afspraak? Bekijk de antwoorden hieronder of stuur ons een e-mail.">
+    <x-page-hero image="service.jpg" eyebrow="Contact & hulp" title="Hoe kunnen we je helpen?" description="Een vraag over onderhoud, jouw type fiets of een afspraak? Bekijk de antwoorden hieronder of stuur ons een e-mail.">
         <a href="mailto:klanten@fietsfix.nl" class="ff-primary">
             Stuur een e-mail ↗
         </a>

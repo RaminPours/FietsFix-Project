@@ -26,7 +26,7 @@
         </h2>
         <div class="mt-9 grid gap-6 md:grid-cols-3">
             @foreach ([
-                ['fietssoorten', '01', 'Voor iedere fiets', 'E-bike, stadsfiets of bakfiets: ontdek welke fietsen bij ons welkom zijn.', 'Bekijk fietssoorten'],
+                ['merken', '01', 'Voor iedere fiets', 'E-bike, stadsfiets of bakfiets: ontdek welke fietsen bij ons welkom zijn.', 'Bekijk merken'],
                 ['fietsonderhoud', '02', 'Aandacht voor de details', 'Van remmen en banden tot ketting en versnellingen. Bekijk wat onderhoud inhoudt.', 'Ontdek onderhoud'],
                 ['contact', '03', 'Een vraag over je fiets?', 'Vind antwoorden op veelgestelde vragen of neem contact met ons op.', 'We helpen je verder']
             ] as [$destination, $number, $heading, $text, $label])

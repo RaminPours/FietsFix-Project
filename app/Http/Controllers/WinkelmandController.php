@@ -1,0 +1,68 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Product;
+use Illuminate\Http\Request;
+
+class WinkelmandController extends Controller
+{
+    public function index(Request $request)
+    {
+        // De sessie bewaart alleen productnummers en aantallen, nooit prijzen.
+        $mandje = $request->session()->get('winkelmand', []);
+        $producten = Product::whereIn('id', array_keys($mandje))->get();
+        $totaal = 0;
+        $kanBestellen = count($mandje) > 0 && count($producten) === count($mandje);
+
+        foreach ($producten as $product) {
+            $totaal += $product->prijs_cent * $mandje[$product->id];
+            if (!$product->actief) {
+                $kanBestellen = false;
+            }
+        }
+
+        return view('winkelmand.index', compact('mandje', 'producten', 'totaal', 'kanBestellen'));
+    }
+
+    public function toevoegen(Request $request, Product $product)
+    {
+        abort_unless($product->actief, 404);
+        $mandje = $request->session()->get('winkelmand', []);
+        $aantal = $mandje[$product->id] ?? 0;
+
+        if ($aantal >= 5) {
+            return redirect()->route('winkelmand.index')->withErrors(['aantal' => 'Je kunt maximaal 5 stuks per product bestellen.']);
+        }
+
+        $mandje[$product->id] = $aantal + 1;
+        $request->session()->put('winkelmand', $mandje);
+        $request->session()->forget('winkel_checkout');
+
+        return redirect()->route('winkelmand.index')->with('success', 'Het artikel is toegevoegd aan je winkelmandje.');
+    }
+
+    public function wijzigen(Request $request, int $product)
+    {
+        $gegevens = $request->validate(['aantal' => ['required', 'integer', 'min:1', 'max:5']]);
+        $mandje = $request->session()->get('winkelmand', []);
+        abort_unless(isset($mandje[$product]), 404);
+
+        $mandje[$product] = (int) $gegevens['aantal'];
+        $request->session()->put('winkelmand', $mandje);
+        $request->session()->forget('winkel_checkout');
+
+        return redirect()->route('winkelmand.index');
+    }
+
+    public function verwijderen(Request $request, int $product)
+    {
+        // Verwijderen werkt ook als het product intussen uit de database is verwijderd.
+        $mandje = $request->session()->get('winkelmand', []);
+        unset($mandje[$product]);
+        $request->session()->put('winkelmand', $mandje);
+        $request->session()->forget('winkel_checkout');
+
+        return redirect()->route('winkelmand.index');
+    }
+}
