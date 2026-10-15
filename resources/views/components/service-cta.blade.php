@@ -1,3 +1,4 @@
+
 <section class="mx-auto max-w-7xl px-6 py-12 lg:px-8">
     <div class="rounded-3xl bg-teal-900 p-8 text-white sm:p-12 md:flex md:items-center md:justify-between md:gap-8">
         <div>

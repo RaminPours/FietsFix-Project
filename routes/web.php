@@ -2,16 +2,35 @@
 
 use App\Http\Controllers\AfsprakenController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\WinkelController;
+use App\Http\Controllers\BestellingController;
+use App\Http\Controllers\WinkelmandController;
+use App\Http\Controllers\AfrekenenController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [AfsprakenController::class, 'index'])->name('home');
 Route::get('/contact', [AfsprakenController::class, 'contact'])->name('contact');
+// Iedereen kan fietsen bekijken. Bestellen kan na het inloggen.
+Route::get('/winkel', [WinkelController::class, 'index'])->name('winkel.index');
+Route::get('/accessoires', [WinkelController::class, 'accessoires'])->name('winkel.accessoires');
+Route::get('/winkel/{product}', [WinkelController::class, 'show'])->name('winkel.show');
+// Ook bezoekers kunnen een mandje vullen. Alleen het afronden vereist inloggen.
+Route::get('/winkelmand', [WinkelmandController::class, 'index'])->name('winkelmand.index');
+Route::post('/winkelmand/{product}', [WinkelmandController::class, 'toevoegen'])->name('winkelmand.toevoegen');
+Route::patch('/winkelmand/{product}', [WinkelmandController::class, 'wijzigen'])->name('winkelmand.wijzigen');
+Route::delete('/winkelmand/{product}', [WinkelmandController::class, 'verwijderen'])->name('winkelmand.verwijderen');
 Route::get('/fietsonderhoud', [AfsprakenController::class, 'fietsonderhoud'])
     ->name('fietsonderhoud');
-Route::get('/fietssoorten', [AfsprakenController::class, 'fietssoorten'])
-    ->name('fietssoorten');
+Route::get('/merken', [AfsprakenController::class, 'merken'])
+    ->name('merken');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/afrekenen', [AfrekenenController::class, 'create'])->name('afrekenen.create');
+    Route::post('/afrekenen', [AfrekenenController::class, 'store'])->name('afrekenen.store');
+    Route::get('/bestellingen', [BestellingController::class, 'index'])->name('bestellingen.index');
+    Route::patch('/bestellingen/{id}/annuleren', [BestellingController::class, 'annuleren'])->name('bestellingen.annuleren');
+    Route::get('/winkel/{product}/bestellen', [BestellingController::class, 'create'])->name('bestellingen.create');
+    Route::post('/winkel/{product}/bestellen', [BestellingController::class, 'store'])->name('bestellingen.store');
     Route::get('/dashboard', [AfsprakenController::class, 'dashboard'])
         ->name('dashboard');
     Route::post('/afspraken', [AfsprakenController::class, 'store'])

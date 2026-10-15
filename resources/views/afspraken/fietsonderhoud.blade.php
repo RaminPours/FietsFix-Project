@@ -1,12 +1,6 @@
 @extends('layouts.app')
-
 @section('content')
-    <x-page-hero
-        image="fietsrep.jpg"
-        eyebrow="Fietsonderhoud"
-        title="Goed onderhouden. Lekker fietsen."
-        description="Een soepel lopende ketting, goed afgestelde remmen en banden op spanning. Kleine details zorgen samen voor een fijne rit."
-    >
+    <x-page-hero image="fietsrep.jpg" eyebrow="Fietsonderhoud" title="Goed onderhouden. Lekker fietsen." description="Een soepel lopende ketting, goed afgestelde remmen en banden op spanning. Kleine details zorgen samen voor een fijne rit.">
         <a href="{{ route('afspraken.create') }}" class="ff-primary">
             Plan een onderhoudsbeurt ↗
         </a>
@@ -14,6 +8,7 @@
             Wat controleren we? ↓
         </a>
     </x-page-hero>
+
     <section id="controle" class="ff-section">
         <div class="max-w-2xl">
             <p class="ff-eyebrow">
@@ -31,7 +26,7 @@
                 ['01', 'Remmen', 'Controle van de werking, slijtage en afstelling van je remmen.'],
                 ['02', 'Banden & wielen', 'Aandacht voor bandenspanning, bandenprofiel, spaken en de loop van je wielen.'],
                 ['03', 'Ketting & aandrijving', 'Controle van slijtage en smering voor een soepel lopende aandrijving.'],
-                ['04', 'Versnellingen', 'Controle van de afstelling, zodat je prettig kunt schakelen.'],
+                ['04', 'Versnellingen', 'Controle van de afstelling, zodat je prettig kunt schakelen.']
             ] as [$number, $heading, $text])
                 <article class="ff-card">
                     <span class="text-sm font-bold text-teal-600">
@@ -74,6 +69,5 @@
             </div>
         </div>
     </section>
-
     <x-service-cta />
 @endsection

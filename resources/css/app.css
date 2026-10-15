@@ -3,12 +3,81 @@
 @tailwind utilities;
 
 @layer components {
-    .ff-button { @apply inline-flex items-center justify-center gap-3 rounded-xl px-6 py-3.5 text-sm font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2; }
-    .ff-primary { @apply ff-button bg-teal-700 text-white hover:bg-teal-800; }
-    .ff-secondary { @apply ff-button border border-slate-200 bg-white text-slate-700 hover:border-teal-300 hover:bg-teal-50; }
-    .ff-link { @apply inline-flex items-center gap-2 rounded text-sm font-bold text-teal-700 underline decoration-teal-200 underline-offset-4 transition-colors hover:text-teal-900 hover:decoration-teal-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500; }
-    .ff-section { @apply mx-auto max-w-7xl px-6 py-14 sm:py-20 lg:px-8; }
-    .ff-card { @apply rounded-3xl border border-slate-200 bg-white p-7 shadow-sm sm:p-8; }
-    .ff-eyebrow { @apply text-xs font-bold uppercase tracking-widest text-teal-700; }
-    .ff-title { @apply mt-3 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl; }
+    .ff-button {
+        @apply inline-flex items-center justify-center gap-3 rounded-xl px-6 py-3.5 text-sm font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2;
+    }
+
+    .ff-primary {
+        @apply ff-button bg-teal-700 text-white hover:bg-teal-800;
+    }
+
+    .ff-secondary {
+        @apply ff-button border border-slate-200 bg-white text-slate-700 hover:border-teal-300 hover:bg-teal-50;
+    }
+
+    .ff-link {
+        @apply inline-flex items-center gap-2 rounded text-sm font-bold text-teal-700 underline decoration-teal-200 underline-offset-4 transition-colors hover:text-teal-900 hover:decoration-teal-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500;
+    }
+
+    .ff-section {
+        @apply mx-auto max-w-7xl px-6 py-14 sm:py-20 lg:px-8;
+    }
+
+    .ff-card {
+        @apply rounded-3xl border border-slate-200 bg-white p-7 shadow-sm sm:p-8;
+    }
+
+    .ff-eyebrow {
+        @apply text-xs font-bold uppercase tracking-widest text-teal-700;
+    }
+
+    .ff-title {
+        @apply mt-3 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl;
+    }
+
+    /* Stijlen voor de navigatielinks. */
+    .ff-nav-link {
+        @apply rounded-xl px-4 py-3 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2;
+    }
+
+    .ff-nav-inactive {
+        @apply text-slate-600 hover:bg-slate-50 hover:text-teal-700;
+    }
+
+    .ff-nav-primary {
+        @apply inline-flex items-center justify-center rounded-xl bg-teal-700 px-5 py-3 text-sm font-bold text-white shadow-sm transition-colors hover:bg-teal-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2;
+    }
+
+    .ff-nav-active {
+        @apply bg-teal-50 text-teal-800;
+    }
+
+    /* Het webshopmenu is dicht totdat de klant het gebruikt. */
+    .ff-shop-dropdown {
+        display: none;
+    }
+
+    /* Toetsenbordgebruikers openen het menu met Tab en bereiken daarna de links. */
+    .ff-shop-menu:has(:focus-visible) > .ff-shop-dropdown {
+        display: block;
+    }
+
+    /* Met een muis: open boven de knop of het menu, dicht zodra de muis weggaat. */
+    @media (hover: hover) and (pointer: fine) {
+        .ff-shop-menu:hover > .ff-shop-dropdown {
+            display: block;
+        }
+    }
+
+    /* Op een touchscreen opent een tik het menu. Tik erbuiten om het te sluiten. */
+    @media (hover: none), (pointer: coarse) {
+        .ff-shop-menu:focus-within > .ff-shop-dropdown {
+            display: block;
+        }
+    }
+
+    /* Dezelfde opmaak voor alle velden in het afspraakformulier. */
+    .ff-input {
+        @apply w-full rounded-lg border border-gray-300 px-4 py-2.5 focus:border-green-500 focus:ring-2 focus:ring-green-200 outline-none;
+    }
 }

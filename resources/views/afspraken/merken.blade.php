@@ -1,12 +1,6 @@
 @extends('layouts.app')
-
 @section('content')
-    <x-page-hero
-        image="e-bike.jpg"
-        eyebrow="Fietssoorten"
-        title="Elke fiets verdient aandacht."
-        description="Elektrisch of op eigen kracht, voor woon-werkverkeer of het hele gezin. Bij FietsFix zijn alle merken en fietssoorten welkom."
-    >
+    <x-page-hero image="e-bike.jpg" eyebrow="Fietssoorten" title="Elke fiets verdient aandacht." description="Elektrisch of op eigen kracht, voor woon-werkverkeer of het hele gezin. Bij FietsFix zijn alle merken en fietssoorten welkom.">
         <a href="{{ route('afspraken.create') }}" class="ff-primary">
             Plan onderhoud ↗
         </a>
@@ -14,6 +8,7 @@
             Ontdek jouw fiets ↓
         </a>
     </x-page-hero>
+
     <section id="fietssoorten" class="ff-section">
         <p class="ff-eyebrow">
             Jouw fiets, jouw rit
@@ -25,7 +20,7 @@
             @foreach ([
                 ['E-bikes', 'Extra ondersteuning, extra aandacht. Laat naast de mechanische onderdelen ook je vraag over elektrische ondersteuning weten.'],
                 ['Stadsfietsen', 'Voor boodschappen, school en werk. Goed afgestelde remmen, banden en versnellingen maken het verschil.'],
-                ['Bakfietsen & overige fietsen', 'Van gezinsritten tot bijzondere modellen. Vertel ons welk type fiets je hebt en wat er nodig is.'],
+                ['Bakfietsen & overige fietsen', 'Van gezinsritten tot bijzondere modellen. Vertel ons welk type fiets je hebt en wat er nodig is.']
             ] as [$heading, $text])
                 <article class="ff-card">
                     <div class="mb-6 h-1 w-12 rounded-full bg-teal-500">
@@ -46,7 +41,7 @@
 
     <section class="bg-slate-50">
         <div class="ff-section grid gap-10 md:grid-cols-2 md:items-center">
-            <img src="{{ asset('images/e-bike2.jpg') }}" alt="Elektrische fiets" loading="lazy" class="h-80 w-full rounded-3xl object-cover">
+            <img src="{{ asset('images/e-bike2.jpg') }}" alt="Elektrische fiets" loading="lazy" class="mx-auto h-auto w-[90%] rounded-3xl">
             <div>
                 <p class="ff-eyebrow">
                     Alle merken welkom
@@ -57,9 +52,9 @@
                 <p class="mt-5 leading-relaxed text-slate-600">
                     We voeren onderhoud uit aan onder andere deze merken. Staat jouw merk er niet bij? Neem gerust contact op.
                 </p>
-                <ul class="mt-6 flex flex-wrap gap-2">
-                    @foreach (['Batavus', 'Giant', 'Gazelle', 'Sparta', 'Stella', 'Cortina'] as $brand)
-                        <li class="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700">
+                <ul class="mt-6 grid grid-cols-4 gap-2">
+                    @foreach (['Batavus', 'Giant', 'Gazelle', 'Sparta', 'Stella', 'Cortina', 'Trek', 'Cube'] as $brand)
+                        <li class="rounded-full border border-slate-200 bg-white px-2 py-2 text-center text-sm font-semibold text-slate-700">
                             {{ $brand }}
                         </li>
                     @endforeach
@@ -70,6 +65,5 @@
             </div>
         </div>
     </section>
-
     <x-service-cta />
 @endsection
