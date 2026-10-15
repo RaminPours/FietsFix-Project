@@ -35,41 +35,19 @@ class BestellingController extends Controller
     public function annuleren(Request $request, int $id)
     {
         // Zoek alleen in de bestellingen van de ingelogde klant.
-        $bestelling = Bestelling::where('user_id', $request->user()->id)
-            ->whereKey($id)
-            ->firstOrFail();
+        $bestelling = $this->bestellingVanGebruiker($request, $id);
 
-        // Controleer de status ook bij het bijwerken, voor het geval die ondertussen verandert.
-        $aangepast = Bestelling::whereKey($bestelling->id)
+        // Controleer de status ook bij het verwijderen, voor het geval die ondertussen verandert.
+        $verwijderd = Bestelling::whereKey($bestelling->id)
             ->where('status', 'Ontvangen')
-            ->update(['status' => 'Geannuleerd']);
+            ->delete();
 
-        if (!$aangepast) {
+        if (!$verwijderd) {
             return redirect()->route('bestellingen.index')
                 ->withErrors(['annuleren' => 'Dit artikel is al geannuleerd of de bestelling is al in behandeling.']);
         }
-        // Bewaar het artikel in het overzicht met de nieuwe status.
-        return redirect()->route('bestellingen.index')
-            ->with('success', 'Het bestelde artikel is geannuleerd.');
-    }
-
-    public function verwijderen(Request $request, int $id)
-    {
-        // Zoek alleen in de bestellingen van de ingelogde klant.
-        $bestelling = Bestelling::where('user_id', $request->user()->id)
-            ->whereKey($id)
-            ->firstOrFail();
-
-        // Alleen geannuleerde bestellingen mogen verwijderd worden.
-        if ($bestelling->status !== 'Geannuleerd') {
-            return redirect()->route('bestellingen.index')
-                ->withErrors(['verwijderen' => 'Je kunt alleen geannuleerde bestellingen verwijderen.']);
-        }
-
-        $bestelling->delete();
-
-        return redirect()->route('bestellingen.index')
-            ->with('success', 'De bestelling is verwijderd.');
+        return redirect()->route('winkel.index')
+            ->with('success', 'Je bestelling is geannuleerd.');
     }   
 
     public function store(Request $request, Product $product)
@@ -108,4 +86,8 @@ class BestellingController extends Controller
             ->with('success', 'Je bestelling is ontvangen. Je hebt nog niet betaald. Wacht op bevestiging van de winkel voordat je de fiets ophaalt.');
     }
 
+    private function bestellingVanGebruiker(Request $request, int $id): Bestelling
+    {
+        return Bestelling::where('user_id', $request->user()->id)->findOrFail($id);
+    }
 }

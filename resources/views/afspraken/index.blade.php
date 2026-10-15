@@ -1,8 +1,5 @@
 @extends('layouts.app')
 @section('content')
-    <div class="bg-teal-50 px-6 py-3 text-center text-sm font-semibold text-teal-900">
-        Nieuwe klant? Ontvang 20% korting op je eerste bezoek.
-    </div>
     <x-page-hero
         image="fietsfix.jpg"
         eyebrow="FietsFix · Reparatie & onderhoud"
@@ -16,6 +13,24 @@
             Ontdek ons onderhoud →
         </a>
     </x-page-hero>
+
+    <section class="bg-teal-800 text-white">
+        <div class="ff-section grid gap-8 md:grid-cols-[1fr_auto] md:items-center">
+            <div>
+                <p class="text-sm font-bold uppercase tracking-widest text-teal-200">FietsFix voordeel</p>
+                <h2 class="mt-3 text-3xl font-bold">Registreer en ontvang 20% welkomstkorting.</h2>
+                <p class="mt-4 max-w-2xl leading-relaxed text-teal-50">
+                    Maak gratis een FietsFix-account aan en ontvang korting op je eerste onderhoudsbeurt én extra voordeel in de FietsFix Webshop.
+                    Daarna plan en bekijk je afspraken eenvoudig vanuit je eigen account.
+                </p>
+            </div>
+            <div class="flex flex-wrap gap-3">
+                <a href="{{ route('register') }}" class="ff-button bg-white text-teal-900 hover:bg-teal-50">Account aanmaken</a>
+                <a href="{{ route('fietsonderhoud') }}" class="ff-button border border-white/40 text-white hover:bg-white/10">Bekijk onderhoud</a>
+                <a href="{{ route('winkel.index') }}" class="ff-button border border-white/40 text-white hover:bg-white/10">Naar de webshop</a>
+            </div>
+        </div>
+    </section>
 
     <section class="ff-section">
         <p class="ff-eyebrow">

@@ -10,7 +10,6 @@
             @else
                 <h1 class="ff-title">Vind de fiets die bij je past.</h1>
             <p class="mt-5 max-w-2xl text-lg text-slate-600">Voor de stad, een langere rit of het hele gezin. Bekijk onze fietsen, ontdek de specificaties en bestel voor afhalen bij jouw vestiging.</p>
-            <p class="mt-4 text-sm text-slate-600">Voorbeeldassortiment met echte merkfoto's. De foto's dienen als voorbeeld; prijzen en uitvoeringen zijn demonstratiegegevens.</p>
             @endif
         </div>
     </section>
@@ -29,7 +28,7 @@
             @if (!$accessoires)
             <div>
                 <label for="merk" class="mb-2 block font-semibold">Merk</label>
-                <select id="merk" name="merk" class="ff-input">
+                <select id="merk" name="merk" class="ff-input w-44">
                     <option value="">Alle merken</option>
                     @foreach ($merken as $merk)
                         <option value="{{ $merk }}" @selected(request('merk') === $merk)>{{ $merk }}</option>
@@ -57,7 +56,7 @@
                     @endif
                     <p class="ff-eyebrow">{{ $product->merk }} · {{ $product->categorie }}</p>
                     <h2 class="mt-2 text-2xl font-bold text-slate-900">{{ $product->naam }}</h2>
-                    <p class="mt-4 flex-1 text-slate-600">{{ $product->beschrijving }}</p>
+                    <p class="mt-4 flex-1 text-slate-600">{{ \Illuminate\Support\Str::limit($product->beschrijving, 110) }}</p>
                     <p class="my-5 text-2xl font-bold">&euro; {{ number_format($product->prijs_cent / 100, 2, ',', '.') }}</p>
                     <a class="ff-primary" href="{{ route('winkel.show', $product) }}">{{ $accessoires ? 'Bekijk dit artikel' : 'Bekijk deze fiets' }}</a>
                     <form method="POST" action="{{ route('winkelmand.toevoegen', $product) }}" class="mt-3">

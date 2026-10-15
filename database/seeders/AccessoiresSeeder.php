@@ -42,7 +42,7 @@ class AccessoiresSeeder extends Seeder
             Product::firstOrCreate(['naam' => $naam], [
                 'categorie' => $categorie,
                 'prijs_cent' => $prijs,
-                'afbeelding' => 'images/accessoires/'.$afbeelding.'.svg',
+                'afbeelding' => 'images/accessoires/'.$afbeelding.'.png',
                 'beschrijving' => $beschrijving,
                 'specificaties' => $specificaties,
             ]);

@@ -22,16 +22,15 @@ class BestellingAnnulerenTest extends TestCase
         ]);
     }
 
-    public function test_customer_can_cancel_an_owned_received_item_and_keep_history(): void
+    public function test_customer_can_cancel_an_owned_received_item_and_return_to_the_shop(): void
     {
         $this->withoutVite();
         $user = User::factory()->create();
         $bestelling = $this->bestelling($user);
         $this->actingAs($user)->get(route('bestellingen.index'))->assertSee('Annuleren');
         $this->patch(route('bestellingen.annuleren', $bestelling->id))
-            ->assertRedirect(route('bestellingen.index'))->assertSessionHas('success');
-        $this->assertDatabaseHas('bestellingen', ['id' => $bestelling->id, 'status' => 'Geannuleerd', 'aantal' => 2]);
-        $this->get(route('bestellingen.index'))->assertSee('Geannuleerd')->assertDontSee('>Annuleren<', false);
+            ->assertRedirect(route('winkel.index'))->assertSessionHas('success');
+        $this->assertDatabaseMissing('bestellingen', ['id' => $bestelling->id]);
     }
 
     public function test_guests_and_other_customers_cannot_cancel_an_order(): void
@@ -63,7 +62,7 @@ class BestellingAnnulerenTest extends TestCase
         $eerste->update(['bestelnummer' => $nummer]);
         $tweede->update(['bestelnummer' => $nummer]);
         $this->actingAs($user)->patch(route('bestellingen.annuleren', $eerste->id));
-        $this->assertSame('Geannuleerd', $eerste->fresh()->status);
+        $this->assertDatabaseMissing('bestellingen', ['id' => $eerste->id]);
         $this->assertSame('Ontvangen', $tweede->fresh()->status);
     }
 }

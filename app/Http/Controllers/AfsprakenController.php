@@ -23,34 +23,21 @@ class AfsprakenController extends Controller
         $selectie = session()->getOldInput();
 
         // Controleer eerst of de vestiging en datum geldig zijn.
-        $beschikbaarheidGeladen = Validator::make($selectie, [
-            'vestiging' => ['required', 'string', Rule::in(config('vestigingen.locaties'))],
-            'datum' => ['required', 'date_format:Y-m-d', 'after_or_equal:today'],
-        ])->passes();
+        $beschikbaarheidGeladen = Validator::make($selectie, $this->beschikbaarheidRegels())->passes();
 
         $bezetteTijden = [];
         $volgeboekt = false;
 
         if ($beschikbaarheidGeladen) {
             // Zoek de afspraken voor deze vestiging op deze datum.
-            $afspraken = Afspraken::where('vestiging', $selectie['vestiging'])
+            $bezetteTijden = Afspraken::where('vestiging', $selectie['vestiging'])
                 ->whereDate('datum', $selectie['datum'])
-                ->get();
-
-            foreach ($afspraken as $afspraak) {
-                // Maak van bijvoorbeeld 10:30:00 alleen 10:30 voor de keuzelijst.
-                $bezetteTijden[] = substr($afspraak->tijd, 0, 5);
-            }
+                ->pluck('tijd')
+                ->map(fn ($tijd) => substr($tijd, 0, 5))
+                ->all();
 
             // De dag is vol, tenzij we minstens één vrij tijdstip vinden.
-            $volgeboekt = true;
-
-            foreach (Afspraken::tijdstippen() as $tijdstip) {
-                if (!in_array($tijdstip, $bezetteTijden)) {
-                    $volgeboekt = false;
-                    break;
-                }
-            }
+            $volgeboekt = empty(array_diff(Afspraken::tijdstippen(), $bezetteTijden));
         }
 
         // Geef de resultaten door aan het formulier.
@@ -80,10 +67,7 @@ class AfsprakenController extends Controller
     {
         // Deze knop vraagt alleen beschikbare tijden op en maakt nog geen afspraak.
         if ($request->input('actie') === 'beschikbaarheid') {
-            $request->validate([
-                'vestiging' => ['required', 'string', Rule::in(config('vestigingen.locaties'))],
-                'datum' => ['required', 'date_format:Y-m-d', 'after_or_equal:today'],
-            ]);
+            $request->validate($this->beschikbaarheidRegels());
 
             // Ga terug naar het formulier en bewaar de ingevulde velden met withInput().
             return redirect()->route('afspraken.create')->withInput($request->only([
@@ -159,5 +143,13 @@ class AfsprakenController extends Controller
         return redirect()
             ->route('afspraken.index')
             ->with('success', 'De afspraak is verwijderd.');
+    }
+
+    private function beschikbaarheidRegels(): array
+    {
+        return [
+            'vestiging' => ['required', 'string', Rule::in(config('vestigingen.locaties'))],
+            'datum' => ['required', 'date_format:Y-m-d', 'after_or_equal:today'],
+        ];
     }
 }

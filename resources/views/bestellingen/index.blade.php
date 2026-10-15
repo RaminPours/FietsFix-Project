@@ -27,29 +27,19 @@
                         <div><dt class="font-semibold">Afhalen bij Fietsfix in:</dt><dd>{{ $bestelling->vestiging }}</dd></div>
                         <div><dt class="font-semibold">Status</dt><dd>{{ $bestelling->status }}</dd></div>
                     </dl>
-                    @if ($bestelling->status === 'Geannuleerd')
-                        <p class="mt-5 text-sm text-slate-600">Dit artikel is geannuleerd. Je hoeft het niet op te halen of te betalen.</p>
-                        <p class="mt-2 text-sm text-slate-500">Je kunt dit nu verwijderen</p>
-                        <form method="POST" action="{{ route('bestellingen.verwijderen', $bestelling->id) }}" class="mt-5">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="ff-secondary">Verwijderen</button>
-                        </form>
-                    @else
-                        <p class="mt-5 text-sm text-slate-600">Betalen in de winkel. Wacht op bevestiging voordat je het artikel ophaalt.</p>
-                    @endif
+                    <p class="mt-5 text-sm text-slate-600">Betalen in de winkel. Wacht op bevestiging voordat je het artikel ophaalt.</p>
                     {{-- Alleen ontvangen artikelen kunnen nog worden geannuleerd. --}}
                     @if ($bestelling->status === 'Ontvangen')
                         <form method="POST" action="{{ route('bestellingen.annuleren', $bestelling->id) }}" class="mt-5">
                             @csrf
                             @method('PATCH')
                             <button type="submit" class="ff-secondary">Annuleren</button>
-                            <p class="mt-2 text-sm text-slate-500">Je annuleert hiermee dit artikel, inclusief het bestelde aantal.</p>
+                            <p class="mt-2 text-sm text-slate-500">Je annuleert en verwijdert hiermee dit artikel, inclusief het bestelde aantal.</p>
                         </form>
                     @endif
                 </article>
             @empty
-                <p>Je hebt nog geen fietsen besteld.</p>
+                <p>Je hebt geen producten besteld.</p>
             @endforelse
         </div>
         <div class="mt-8">{{ $bestellingen->links() }}</div>

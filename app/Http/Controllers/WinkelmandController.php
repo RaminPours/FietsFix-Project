@@ -36,8 +36,7 @@ class WinkelmandController extends Controller
         }
 
         $mandje[$product->id] = $aantal + 1;
-        $request->session()->put('winkelmand', $mandje);
-        $request->session()->forget('winkel_checkout');
+        $this->bewaarMandje($request, $mandje);
 
         return redirect()->route('winkelmand.index')->with('success', 'Het artikel is toegevoegd aan je winkelmandje.');
     }
@@ -49,8 +48,7 @@ class WinkelmandController extends Controller
         abort_unless(isset($mandje[$product]), 404);
 
         $mandje[$product] = (int) $gegevens['aantal'];
-        $request->session()->put('winkelmand', $mandje);
-        $request->session()->forget('winkel_checkout');
+        $this->bewaarMandje($request, $mandje);
 
         return redirect()->route('winkelmand.index');
     }
@@ -60,9 +58,13 @@ class WinkelmandController extends Controller
         // Verwijderen werkt ook als het product intussen uit de database is verwijderd.
         $mandje = $request->session()->get('winkelmand', []);
         unset($mandje[$product]);
-        $request->session()->put('winkelmand', $mandje);
-        $request->session()->forget('winkel_checkout');
+        $this->bewaarMandje($request, $mandje);
 
         return redirect()->route('winkelmand.index');
+    }
+    private function bewaarMandje(Request $request, array $mandje): void
+    {
+        $request->session()->put('winkelmand', $mandje);
+        $request->session()->forget('winkel_checkout');
     }
 }
