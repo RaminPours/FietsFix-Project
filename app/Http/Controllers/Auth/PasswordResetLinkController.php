@@ -11,28 +11,20 @@ use Illuminate\View\View;
 
 class PasswordResetLinkController extends Controller
 {
-    /**
-     * Display the password reset link request view.
-     */
+    /** Toon het formulier voor een wachtwoord-resetlink. */
     public function create(): View
     {
         return view('auth.forgot-password');
     }
 
-    /**
-     * Handle an incoming password reset link request.
-     *
-     * @throws ValidationException
-     */
+    /** Vraag een resetlink aan voor het ingevulde e-mailadres. */
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'email' => ['required', 'email'],
         ]);
 
-        // We will send the password reset link to this user. Once we have attempted
-        // to send the link, we will examine the response then see the message we
-        // need to show to the user. Finally, we'll send out a proper response.
+        // Laravel verstuurt de link en geeft terug of dat gelukt is.
         $status = Password::sendResetLink(
             $request->only('email')
         );

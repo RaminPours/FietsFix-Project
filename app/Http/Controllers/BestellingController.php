@@ -20,6 +20,7 @@ class BestellingController extends Controller
 
     public function create(Request $request, Product $product)
     {
+        // Producten die niet actief zijn, kunnen niet besteld worden.
         abort_unless($product->actief, 404);
 
         // Elk bestelformulier krijgt een eigen nummer tegen dubbel versturen.
@@ -53,6 +54,8 @@ class BestellingController extends Controller
     public function store(Request $request, Product $product)
     {
         abort_unless($product->actief, 404);
+
+        // Controleer de gegevens die de klant in het formulier heeft ingevuld.
         $gegevens = $request->validate([
             'naam' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255'],
@@ -88,6 +91,7 @@ class BestellingController extends Controller
 
     private function bestellingVanGebruiker(Request $request, int $id): Bestelling
     {
+        // Deze helper voorkomt dat dezelfde controle op eigenaarschap op meerdere plekken staat.
         return Bestelling::where('user_id', $request->user()->id)->findOrFail($id);
     }
 }

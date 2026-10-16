@@ -11,9 +11,7 @@ use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display the user's profile form.
-     */
+    /** Toon het profiel van de ingelogde gebruiker. */
     public function edit(Request $request): View
     {
         return view('profile.edit', [
@@ -21,9 +19,7 @@ class ProfileController extends Controller
         ]);
     }
 
-    /**
-     * Update the user's profile information.
-     */
+    /** Sla wijzigingen aan het profiel op. */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
         $user = $request->user();
@@ -38,9 +34,7 @@ class ProfileController extends Controller
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
-    /**
-     * Delete the user's account.
-     */
+    /** Verwijder het account na controle van het wachtwoord. */
     public function destroy(Request $request): RedirectResponse
     {
         $request->validateWithBag('userDeletion', [

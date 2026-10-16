@@ -69,6 +69,9 @@
                     <h2 class="mt-2 text-2xl font-bold text-slate-900">{{ $product->naam }}</h2>
                     <p class="mt-4 flex-1 text-slate-600">{{ \Illuminate\Support\Str::limit($product->beschrijving, 110) }}</p>
                     <p class="my-5 text-2xl font-bold">&euro; {{ number_format($product->prijs_cent / 100, 2, ',', '.') }}</p>
+                    @unless ($accessoires)
+                        <p class="-mt-4 mb-5 text-xs text-slate-500">5% korting voor klanten met een abonnement bij FietsFix.</p>
+                    @endunless
                     <a class="ff-primary" href="{{ route('winkel.show', $product) }}">{{ $accessoires ? 'Bekijk dit artikel' : 'Bekijk deze fiets' }}</a>
                     <form method="POST" action="{{ route('winkelmand.toevoegen', $product) }}" class="mt-3">
                         @csrf

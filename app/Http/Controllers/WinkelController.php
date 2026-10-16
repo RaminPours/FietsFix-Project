@@ -10,17 +10,21 @@ class WinkelController extends Controller
 {
     public function index(Request $request)
     {
+        // De gewone winkel toont alleen fietsen en mag ook op merk filteren.
         $categorieen = config('winkel.fietscategorieen');
+
         return $this->overzicht($request, $categorieen, config('winkel.merken'));
     }
 
     public function accessoires(Request $request)
     {
+        // Accessoires hebben geen merkfilter; daarom geven we een lege merkenlijst mee.
         return $this->overzicht($request, config('winkel.accessoires'), [], true);
     }
 
     public function show(Product $product)
     {
+        // Een uitgeschakeld product is niet zichtbaar in de winkel.
         abort_unless($product->actief, 404);
 
         return view('winkel.show', [
@@ -31,6 +35,7 @@ class WinkelController extends Controller
 
     private function overzicht(Request $request, array $categorieen, array $merken = [], bool $accessoires = false)
     {
+        // De URL mag alleen bekende categorieën en merken bevatten.
         $regels = ['categorie' => ['nullable', Rule::in($categorieen)]];
 
         if ($merken) {
@@ -39,7 +44,7 @@ class WinkelController extends Controller
 
         $request->validate($regels);
 
-        // Een gewoon GET-formulier filtert de producten.
+        // Bouw de productlijst op. `when` voegt een filter alleen toe als het is ingevuld.
         $producten = Product::where('actief', true)
             ->whereIn('categorie', $categorieen)
             ->when($request->filled('categorie'), fn ($query) => $query->where('categorie', $request->input('categorie')))

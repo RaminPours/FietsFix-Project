@@ -14,6 +14,7 @@ class AfrekenenController extends Controller
 {
     public function create(Request $request)
     {
+        // Het mandje in de sessie bevat alleen product-ID's en aantallen.
         $mandje = $request->session()->get('winkelmand', []);
         $producten = Product::whereIn('id', array_keys($mandje))->where('actief', true)->get();
 
@@ -46,6 +47,7 @@ class AfrekenenController extends Controller
 
     public function store(Request $request)
     {
+        // Valideer alleen gegevens die de klant zelf mag invullen.
         $gegevens = $request->validate([
             'naam' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255'],
@@ -60,6 +62,7 @@ class AfrekenenController extends Controller
             return redirect()->route('bestellingen.index');
         }
 
+        // Vergelijk met de gegevens die bij het openen van de afrekenpagina zijn bewaard.
         $checkout = $request->session()->get('winkel_checkout');
         if (!$checkout || $checkout['nummer'] !== $gegevens['formuliernummer']
             || $checkout['user_id'] !== $request->user()->id

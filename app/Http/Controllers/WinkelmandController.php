@@ -27,6 +27,7 @@ class WinkelmandController extends Controller
 
     public function toevoegen(Request $request, Product $product)
     {
+        // Voeg geen producten toe die niet meer verkocht worden.
         abort_unless($product->actief, 404);
         $mandje = $request->session()->get('winkelmand', []);
         $aantal = $mandje[$product->id] ?? 0;
@@ -43,6 +44,7 @@ class WinkelmandController extends Controller
 
     public function wijzigen(Request $request, int $product)
     {
+        // Controleer eerst of het ingevoerde aantal binnen de toegestane grens valt.
         $gegevens = $request->validate(['aantal' => ['required', 'integer', 'min:1', 'max:5']]);
         $mandje = $request->session()->get('winkelmand', []);
         abort_unless(isset($mandje[$product]), 404);
@@ -64,6 +66,7 @@ class WinkelmandController extends Controller
     }
     private function bewaarMandje(Request $request, array $mandje): void
     {
+        // Bij een wijziging is een eerder voorbereid afrekenformulier niet meer geldig.
         $request->session()->put('winkelmand', $mandje);
         $request->session()->forget('winkel_checkout');
     }

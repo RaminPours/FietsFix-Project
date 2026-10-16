@@ -11,17 +11,13 @@ use Illuminate\View\View;
 
 class ConfirmablePasswordController extends Controller
 {
-    /**
-     * Show the confirm password view.
-     */
+    /** Toon het formulier om het wachtwoord opnieuw te bevestigen. */
     public function show(): View
     {
         return view('auth.confirm-password');
     }
 
-    /**
-     * Confirm the user's password.
-     */
+    /** Controleer het wachtwoord voordat een gevoelige actie mag doorgaan. */
     public function store(Request $request): RedirectResponse
     {
         if (! Auth::guard('web')->validate([

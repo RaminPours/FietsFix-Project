@@ -14,6 +14,7 @@ class AfsprakenController extends Controller
 {
     public function index()
     {
+        // Dit is de openbare startpagina.
         return view('afspraken.index');
     }
 
@@ -55,6 +56,7 @@ class AfsprakenController extends Controller
 
     public function proefritCreate()
     {
+        // Toon het formulier; opslaan gebeurt in proefritStore().
         return view('afspraken.proefrit');
     }
 
@@ -106,8 +108,9 @@ class AfsprakenController extends Controller
         return view('afspraken.fietsonderhoud');
     }
 
-    public function Merken()
+    public function merken()
     {
+        // Methodes beginnen normaal met een kleine letter; de route gebruikt deze naam ook.
         return view('afspraken.Merken');
     }
 

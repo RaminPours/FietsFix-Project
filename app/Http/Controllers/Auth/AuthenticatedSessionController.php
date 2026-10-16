@@ -11,17 +11,13 @@ use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
 {
-    /**
-     * Display the login view.
-     */
+    /** Toon het inlogformulier. */
     public function create(): View
     {
         return view('auth.login');
     }
 
-    /**
-     * Handle an incoming authentication request.
-     */
+    /** Log de gebruiker in en vernieuw de sessie voor extra veiligheid. */
     public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
@@ -31,9 +27,7 @@ class AuthenticatedSessionController extends Controller
         return redirect()->intended(route('dashboard', absolute: false));
     }
 
-    /**
-     * Destroy an authenticated session.
-     */
+    /** Log uit en maak de huidige sessie ongeldig. */
     public function destroy(Request $request): RedirectResponse
     {
         Auth::guard('web')->logout();
