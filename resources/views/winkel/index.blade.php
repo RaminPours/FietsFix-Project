@@ -2,9 +2,8 @@
 @section('content')
     <section class="bg-teal-50">
         <div class="ff-section">
-            <p class="ff-eyebrow">FietsFix Shop</p>
             @auth
-                <div role="status" class="mt-4 rounded-2xl bg-white p-5 text-teal-900 shadow-sm">
+                <div role="status" class="relative z-10 -mt-1 mb-8 rounded-2xl bg-white px-4 py-3 text-teal-900 shadow-sm">
                     <p class="font-bold">Welkom terug, {{ auth()->user()->name }}!</p>
                     <p class="mt-1">Als geregistreerde FietsFix-klant ontvang je extra klantkorting in de webshop.</p>
                 </div>
