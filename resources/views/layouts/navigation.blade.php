@@ -10,7 +10,7 @@
         >
             <x-application-logo class="h-20 w-20 sm:h-24 sm:w-24" />
         </a>
-        <div class="flex flex-wrap items-center justify-center gap-1">
+        <div class="flex flex-wrap items-center justify-center gap-5">
             @foreach ([
                 'home' => 'Home',
                 'winkel.index' => 'FietsFix Webshop',
