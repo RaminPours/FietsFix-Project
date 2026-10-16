@@ -10,8 +10,6 @@
                 <img src="{{ asset($product->afbeelding) }}" alt="{{ $foto['model'] ?? $product->naam }}" class="aspect-[720/440] w-full rounded-3xl bg-white object-contain" width="720" height="440">
                 @if ($foto)
                     <p class="mt-3 text-sm text-slate-500">Op de foto: {{ $foto['model'] }}. <a href="{{ $foto['bron'] }}" class="underline">Fotobron: {{ $foto['eigenaar'] }}</a>.</p>
-                @else
-                    <p class="mt-3 text-sm text-slate-500">Voorbeeldproduct met illustratie. Specificaties en prijs zijn demonstratiegegevens.</p>
                 @endif
             </div>
             <div>

@@ -53,6 +53,54 @@ class AfsprakenController extends Controller
         return view('afspraken.contact');
     }
 
+    public function proefritCreate()
+    {
+        return view('afspraken.proefrit');
+    }
+
+    public function proefritStore(Request $request)
+    {
+        $validated = $request->validate([
+            'naam' => ['required', 'string', 'max:250'],
+            'email' => ['required', 'email', 'max:250'],
+            'telefoonnummer' => ['required', 'string', 'max:20'],
+            'vestiging' => ['required', 'string', Rule::in(config('vestigingen.locaties'))],
+            'datum' => ['required', 'date', 'after_or_equal:today'],
+            'tijd' => ['required', 'date_format:H:i', Rule::in(Afspraken::tijdstippen())],
+        ], [
+            'vestiging.required' => 'Kies een vestiging voor uw proefrit.',
+            'vestiging.in' => 'Kies een geldige vestiging.',
+            'tijd.in' => 'Kies een tijd tussen 08:00 en 17:00, in stappen van een kwartier.',
+        ]);
+
+        $bezetMelding = 'Dit tijdstip zit vol bij de gekozen vestiging. Kies een andere datum of tijd.';
+
+        if (Afspraken::where('vestiging', $validated['vestiging'])
+            ->whereDate('datum', $validated['datum'])
+            ->whereTime('tijd', $validated['tijd'].':00')
+            ->exists()) {
+            throw ValidationException::withMessages(['tijd' => $bezetMelding]);
+        }
+
+        $validated = array_merge($validated, [
+            'user_id' => Auth::id(),
+            'fietstype' => 'Proefrit',
+            'fietsmerk' => 'Nog te kiezen',
+            'probleem' => 'Proefrit via de webshop',
+            'type' => 'proefrit',
+            'tijd' => $validated['tijd'].':00',
+        ]);
+
+        try {
+            Afspraken::create($validated);
+        } catch (UniqueConstraintViolationException $exception) {
+            throw ValidationException::withMessages(['tijd' => $bezetMelding]);
+        }
+
+        return redirect()->route('dashboard')
+            ->with('success', 'Uw proefrit is succesvol ingepland.');
+    }
+
     public function fietsonderhoud()
     {
         return view('afspraken.fietsonderhoud');

@@ -26,7 +26,7 @@
                         {{-- Afspraakgegevens links --}}
                         <div class="min-w-0 flex-1">
                             <h2 class="text-xl font-bold text-gray-900">
-                                Fietsmerk: {{ $afspraak->fietsmerk }} · ({{ $afspraak->fietstype }})
+                                {{ $afspraak->type === 'proefrit' ? 'Proefrit' : 'Fietsmerk: '.$afspraak->fietsmerk.' · ('.$afspraak->fietstype.')' }}
                             </h2>
                             <p class="mt-2 font-semibold text-green-700">
                                 Uw afspraak is op:
@@ -40,10 +40,10 @@
                                 </div>
                                 <div>
                                     <dt class="font-semibold">
-                                        Probleem
+                                        {{ $afspraak->type === 'proefrit' ? 'Proefrit aangevraagd' : 'Probleem' }}
                                     </dt>
                                     <dd class="whitespace-pre-line">
-                                        {{ $afspraak->probleem }}
+                                        {{ $afspraak->type === 'proefrit' ? 'Uw proefrit is aangevraagd.' : $afspraak->probleem }}
                                     </dd>
                                 </div>
                                 <div>
@@ -72,7 +72,7 @@
                                 </div>
                             </dl>
                             <p class="mt-6 text-sm text-gray-500">
-                                Wij bellen u wanneer uw fiets klaar is.
+                                {{ $afspraak->type === 'proefrit' ? 'Uw fiets staat klaar!' : 'Wij bellen u wanneer uw fiets klaar is.' }}
                             </p>
                             <form
                                 action="{{ route('afspraken.delete', $afspraak->id) }}"
@@ -92,8 +92,8 @@
                         </div>
                         <div class="w-full shrink-0 sm:w-3/5">
                             <img
-                                src="{{ asset('images/repair2.jpg') }}"
-                                alt="FietsFix"
+                                src="{{ asset($afspraak->type === 'proefrit' ? 'images/proefrit-fiets.png' : 'images/repair2.jpg') }}"
+                                alt="{{ $afspraak->type === 'proefrit' ? 'Persoon op een fiets tijdens een proefrit' : 'FietsFix onderhoud' }}"
                                 class="w-full rounded-xl object-cover"
                             >
                         </div>

@@ -201,4 +201,24 @@ class AfsprakenTest extends TestCase
 
         $this->assertDatabaseCount('afspraken', 5);
     }
+
+    public function test_user_can_plan_a_test_ride_at_a_branch(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user)->post(route('proefrit.store'), [
+            'naam' => 'Ramin',
+            'email' => 'ramin@example.com',
+            'telefoonnummer' => '0612345678',
+            'vestiging' => 'Nijmegen',
+            'datum' => now()->addDay()->toDateString(),
+            'tijd' => '10:30',
+        ])->assertRedirect(route('dashboard'))->assertSessionHas('success');
+
+        $this->assertDatabaseHas('afspraken', [
+            'user_id' => $user->id,
+            'vestiging' => 'Nijmegen',
+            'type' => 'proefrit',
+        ]);
+    }
 }

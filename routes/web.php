@@ -25,6 +25,8 @@ Route::get('/merken', [AfsprakenController::class, 'merken'])
     ->name('merken');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/proefrit', [AfsprakenController::class, 'proefritCreate'])->name('proefrit.create');
+    Route::post('/proefrit', [AfsprakenController::class, 'proefritStore'])->name('proefrit.store');
     Route::get('/afrekenen', [AfrekenenController::class, 'create'])->name('afrekenen.create');
     Route::post('/afrekenen', [AfrekenenController::class, 'store'])->name('afrekenen.store');
     Route::get('/bestellingen', [BestellingController::class, 'index'])->name('bestellingen.index');

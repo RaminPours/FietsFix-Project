@@ -14,6 +14,31 @@
         </a>
     </x-page-hero>
 
+    <section class="bg-slate-50">
+        <div class="ff-section">
+            <p class="ff-eyebrow">Daarom FietsFix</p>
+            <h2 class="ff-title">Zorgeloos op weg.</h2>
+            <div class="mt-9 grid gap-6 md:grid-cols-3">
+                <article class="rounded-3xl bg-white p-7 shadow-sm">
+                    <p class="text-3xl tracking-wide text-amber-400" aria-label="5 van 5 sterren">★★★★★</p>
+                    <h3 class="mt-4 text-xl font-bold text-slate-900">Klantenbeoordeling</h3>
+                    <p class="mt-3 text-3xl font-bold text-teal-700">4,8 / 5</p>
+                    <p class="mt-2 leading-relaxed text-slate-600">Klanten waarderen onze persoonlijke service en vakkundige reparaties.</p>
+                </article>
+                <article class="rounded-3xl bg-white p-7 shadow-sm">
+                    <p class="text-3xl font-bold text-teal-700">5 jaar</p>
+                    <h3 class="mt-4 text-xl font-bold text-slate-900">Garantie op e-bikes</h3>
+                    <p class="mt-3 leading-relaxed text-slate-600">Op alle e-bikes krijg je vijf jaar garantie, zodat je met vertrouwen blijft fietsen.</p>
+                </article>
+                <article class="rounded-3xl bg-white p-7 shadow-sm">
+                    <p class="text-3xl font-bold text-teal-700">{{ count(config('vestigingen.locaties')) }}</p>
+                    <h3 class="mt-4 text-xl font-bold text-slate-900">Vestigingen in Nederland</h3>
+                    <p class="mt-3 leading-relaxed text-slate-600">Met {{ count(config('vestigingen.locaties')) }} vestigingen is er altijd een FietsFix-locatie bij jou in de buurt.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
     <section class="bg-teal-800 text-white">
         <div class="ff-section grid gap-8 md:grid-cols-[1fr_auto] md:items-center">
             <div>

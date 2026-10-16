@@ -3,13 +3,25 @@
     <section class="bg-teal-50">
         <div class="ff-section">
             <p class="ff-eyebrow">FietsFix Shop</p>
+            @auth
+                <div role="status" class="mt-4 rounded-2xl bg-white p-5 text-teal-900 shadow-sm">
+                    <p class="font-bold">Welkom terug, {{ auth()->user()->name }}!</p>
+                    <p class="mt-1">Als geregistreerde FietsFix-klant ontvang je extra klantkorting in de webshop.</p>
+                </div>
+            @endauth
             @if ($accessoires)
                 <h1 class="ff-title">Alles voor jouw fiets.</h1>
                 <p class="mt-5 max-w-2xl text-lg text-slate-600">Van verlichting en sloten tot banden en pedalen. Kies een categorie, bekijk de onderdelen en voeg ze toe aan je winkelmandje.</p>
-                <p class="mt-4 text-sm text-slate-600">Voorbeeldassortiment met illustraties en voorbeeldprijzen. Controleer bij elk onderdeel de maat en of het op jouw fiets past.</p>
+                <a href="{{ route('proefrit.create') }}" class="ff-primary mt-6">Plan een proefrit</a>
             @else
-                <h1 class="ff-title">Vind de fiets die bij je past.</h1>
-            <p class="mt-5 max-w-2xl text-lg text-slate-600">Voor de stad, een langere rit of het hele gezin. Bekijk onze fietsen, ontdek de specificaties en bestel voor afhalen bij jouw vestiging.</p>
+                <div class="grid gap-8 lg:grid-cols-2 lg:items-center">
+                    <div>
+                        <h1 class="ff-title">Vind de fiets die bij je past.</h1>
+                        <p class="mt-5 max-w-2xl text-lg text-slate-600">Voor de stad, een langere rit of het hele gezin. Bekijk onze fietsen, ontdek de specificaties en bestel voor afhalen bij jouw vestiging.</p>
+                        <a href="{{ route('proefrit.create') }}" class="ff-primary mt-6">Plan een proefrit</a>
+                    </div>
+                    <img src="{{ asset('images/winkel/uitgelichte-giant-e-bike.png') }}" alt="Populaire Giant e-bike, alleen bij FietsFix afgeprijsd van 3.500 euro naar 2.999 euro" class="w-full rounded-3xl object-cover shadow-lg" width="1536" height="1024">
+                </div>
             @endif
         </div>
     </section>

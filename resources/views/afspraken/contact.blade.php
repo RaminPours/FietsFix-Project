@@ -20,6 +20,17 @@
             <p class="mt-5 leading-relaxed text-slate-600">
                 Vermeld bij je vraag het merk en type van je fiets en beschrijf kort waar je hulp bij nodig hebt.
             </p>
+            <div class="mt-6 flex items-center gap-4 rounded-2xl bg-teal-50 p-4 text-slate-700">
+                <button type="button" aria-label="Start live chat" class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-teal-600 text-white transition hover:bg-teal-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2">
+                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 3.866-4.03 7-9 7a10.6 10.6 0 0 1-4.25-.88L3 19l1.37-3.2A6.52 6.52 0 0 1 3 12c0-3.866 4.03-7 9-7s9 3.134 9 7Z" />
+                    </svg>
+                </button>
+                <div>
+                    <p class="font-semibold text-teal-900">Live chat tijdens kantoortijden</p>
+                    <p class="mt-1 text-sm leading-relaxed">Naast contact per e-mail is onze klantenservice tijdens kantoortijden ook via live chat beschikbaar.</p>
+                </div>
+            </div>
             <a href="mailto:klanten@fietsfix.nl" class="ff-link mt-6 break-all">
                 klanten@fietsfix.nl ↗
             </a>
@@ -58,6 +69,7 @@
                     ['Hoe maak ik een afspraak?', 'Log in of maak een account aan. Via ‘Plan een afspraak’ kun je je gegevens invullen en een moment kiezen.'],
                     ['Kan ik met ieder fietsmerk terecht?', 'Alle merken zijn welkom. Heb je een bijzondere fiets of een specifieke reparatievraag? Mail ons dan vooraf met het merk en type.'],
                     ['Wat kost een onderhoudsbeurt?', 'Neem contact met ons op voor de actuele prijs en mogelijkheden voor jouw fiets. Vermeld het type fiets en wat je wilt laten controleren.'],
+                    ['Wat kost een FietsFix abonnement?', 'Een zorgeloos FietsFix abonnement kost € 8,50 per maand.'],
                     ['Waar vind ik mijn afspraak?', 'Na het inloggen vind je je afspraken via ‘Afspraak inzien’ in de navigatie.']
                 ] as [$question, $answer])
                     <details class="group rounded-2xl border border-slate-200 bg-white">

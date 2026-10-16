@@ -39,7 +39,7 @@ class WinkelController extends Controller
 
         $request->validate($regels);
 
-        // Een gewoon GET-formulier filtert de producten zonder JavaScript.
+        // Een gewoon GET-formulier filtert de producten.
         $producten = Product::where('actief', true)
             ->whereIn('categorie', $categorieen)
             ->when($request->filled('categorie'), fn ($query) => $query->where('categorie', $request->input('categorie')))

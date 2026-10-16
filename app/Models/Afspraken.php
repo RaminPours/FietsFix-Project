@@ -26,5 +26,6 @@ class Afspraken extends Model
         'probleem',
         'datum',
         'tijd',
+        'type',
     ];
 }
