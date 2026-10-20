@@ -4,6 +4,8 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use App\Models\Product;
+use App\Models\Bestelling;
+use Illuminate\Support\Str;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -43,5 +45,24 @@ class PersoneelTest extends TestCase
             ->patch(route('personeel.voorraad.verlagen', $product), ['aantal' => 2])
             ->assertRedirect(route('personeel.voorraad'));
         $this->assertDatabaseHas('producten', ['id' => $product->id, 'voorraad' => 3]);
+    }
+
+    public function test_staff_can_manage_order_statuses(): void
+    {
+        $klant = User::factory()->create();
+        $bestelling = Bestelling::create([
+            'user_id' => $klant->id, 'product_naam' => 'Testfiets', 'prijs_cent' => 10000,
+            'aantal' => 1, 'naam' => $klant->name, 'email' => $klant->email,
+            'telefoonnummer' => '0612345678', 'vestiging' => 'Nijmegen',
+            'status' => 'Ontvangen', 'formuliernummer' => (string) Str::uuid(),
+        ]);
+        $staff = User::factory()->create(['is_personeel' => true]);
+
+        $this->actingAs($klant)->get(route('personeel.bestellingen'))->assertForbidden();
+        $this->actingAs($staff)->patch(route('personeel.bestellingen.status', $bestelling), [
+            'status' => 'In behandeling',
+        ])->assertRedirect(route('personeel.bestellingen'));
+
+        $this->assertDatabaseHas('bestellingen', ['id' => $bestelling->id, 'status' => 'In behandeling']);
     }
 }

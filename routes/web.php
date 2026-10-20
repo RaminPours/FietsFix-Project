@@ -58,6 +58,8 @@ Route::middleware(['auth', 'personeel'])->prefix('personeel')->name('personeel.'
     Route::get('/voorraad', [PersoneelController::class, 'voorraad'])->name('voorraad');
     Route::patch('/voorraad/{product}', [PersoneelController::class, 'voorraadAanvullen'])->name('voorraad.aanvullen');
     Route::patch('/voorraad/{product}/verlagen', [PersoneelController::class, 'voorraadVerlagen'])->name('voorraad.verlagen');
+    Route::get('/bestellingen', [PersoneelController::class, 'bestellingen'])->name('bestellingen');
+    Route::patch('/bestellingen/{bestelling}', [PersoneelController::class, 'bestellingStatusBijwerken'])->name('bestellingen.status');
 });
 
 require __DIR__.'/auth.php';

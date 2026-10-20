@@ -31,6 +31,9 @@
             @endforelse
         </section>
 
-        <a href="{{ route('personeel.voorraad') }}" class="ff-primary mt-8">Voorraad beheren</a>
+        <div class="mt-8 flex flex-wrap gap-3">
+            <a href="{{ route('personeel.bestellingen') }}" class="ff-primary">Bestellingen beheren</a>
+            <a href="{{ route('personeel.voorraad') }}" class="ff-secondary">Voorraad beheren</a>
+        </div>
     </section>
 @endsection

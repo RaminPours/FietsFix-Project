@@ -6,6 +6,7 @@ use App\Models\Bestelling;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
 class PersoneelController extends Controller
@@ -60,5 +61,25 @@ class PersoneelController extends Controller
 
         return redirect()->route('personeel.voorraad')
             ->with('success', 'De voorraad is verlaagd.');
+    }
+
+    public function bestellingen()
+    {
+        $bestellingen = Bestelling::latest()->paginate(20);
+        $statussen = Bestelling::STATUSSEN;
+
+        return view('personeel.bestellingen', compact('bestellingen', 'statussen'));
+    }
+
+    public function bestellingStatusBijwerken(Request $request, Bestelling $bestelling)
+    {
+        $gegevens = $request->validate([
+            'status' => ['required', Rule::in(Bestelling::STATUSSEN)],
+        ]);
+
+        $bestelling->update(['status' => $gegevens['status']]);
+
+        return redirect()->route('personeel.bestellingen')
+            ->with('success', 'De bestelstatus is bijgewerkt.');
     }
 }
