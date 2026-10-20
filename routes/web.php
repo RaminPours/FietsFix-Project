@@ -6,6 +6,7 @@ use App\Http\Controllers\WinkelController;
 use App\Http\Controllers\BestellingController;
 use App\Http\Controllers\WinkelmandController;
 use App\Http\Controllers\AfrekenenController;
+use App\Http\Controllers\PersoneelController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [AfsprakenController::class, 'index'])->name('home');
@@ -50,6 +51,13 @@ Route::middleware('auth')->group(function () {
         ->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])
         ->name('profile.destroy');
+});
+
+Route::middleware(['auth', 'personeel'])->prefix('personeel')->name('personeel.')->group(function () {
+    Route::get('/', [PersoneelController::class, 'index'])->name('index');
+    Route::get('/voorraad', [PersoneelController::class, 'voorraad'])->name('voorraad');
+    Route::patch('/voorraad/{product}', [PersoneelController::class, 'voorraadAanvullen'])->name('voorraad.aanvullen');
+    Route::patch('/voorraad/{product}/verlagen', [PersoneelController::class, 'voorraadVerlagen'])->name('voorraad.verlagen');
 });
 
 require __DIR__.'/auth.php';

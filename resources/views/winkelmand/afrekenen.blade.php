@@ -48,7 +48,7 @@
                     @endforeach
                 </select>
             </div>
-            <button type="submit" class="ff-primary">Bestelling plaatsen — betalen in de winkel</button>
+            <button type="submit" class="ff-primary">Bestelling plaatsen & betalen in de winkel</button>
         </form>
     </section>
 @endsection

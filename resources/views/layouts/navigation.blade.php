@@ -10,7 +10,7 @@
         >
             <x-application-logo class="h-20 w-20 sm:h-24 sm:w-24" />
         </a>
-        <div class="flex flex-wrap items-center justify-center gap-5">
+        <div class="flex flex-wrap items-center justify-center gap-2">
             @foreach ([
                 'home' => 'Home',
                 'winkel.index' => 'FietsFix Webshop',
@@ -33,11 +33,13 @@
                 @endif
             @endforeach
         </div>
-        <div class="flex flex-wrap items-center justify-end gap-2">
-            {{-- Tel alle aantallen in de sessie op voor de teller naast het mandje. --}}
-            <a href="{{ route('winkelmand.index') }}" class="ff-nav-link {{ request()->routeIs('winkelmand.*', 'afrekenen.*') ? 'ff-nav-active' : 'ff-nav-inactive' }}">
-                Winkelmandje ({{ array_sum(session('winkelmand', [])) }})
-            </a>
+        <div class="flex flex wrap items-center justify-end gap-2">
+            @unless (auth()->check() && auth()->user()->is_personeel)
+                {{-- Tel alle aantallen in de sessie op voor de teller naast het mandje. --}}
+                <a href="{{ route('winkelmand.index') }}" class="ff-nav-link {{ request()->routeIs('winkelmand.*', 'afrekenen.*') ? 'ff-nav-active' : 'ff-nav-inactive' }}">
+                    Winkelmandje ({{ array_sum(session('winkelmand', [])) }})
+                </a>
+            @endunless
             @guest
                 <a
                     href="{{ route('login') }}"
@@ -58,18 +60,25 @@
                     Registreren
                 </a>
             @else
-                <a href="{{ route('bestellingen.index') }}" class="ff-nav-link {{ request()->routeIs('bestellingen.*') ? 'ff-nav-active' : 'ff-nav-inactive' }}">
-                    Mijn bestellingen
-                </a>
-                <a
-                    href="{{ route('dashboard') }}"
-                    @if(request()->routeIs('dashboard', 'afspraken.*'))
-                        aria-current="page"
-                    @endif
-                    class="ff-nav-primary"
-                >
-                    Afspraak inzien
-                </a>
+                @if (auth()->user()->is_personeel)
+                    <a href="{{ route('personeel.index') }}" class="ff-nav-link {{ request()->routeIs('personeel.*') ? 'ff-nav-active' : 'ff-nav-inactive' }}">
+                        Personeelsbeheer
+                    </a>
+                @endif
+                @unless (auth()->user()->is_personeel)
+                    <a href="{{ route('bestellingen.index') }}" class="ff-nav-link {{ request()->routeIs('bestellingen.*') ? 'ff-nav-active' : 'ff-nav-inactive' }}">
+                        Mijn bestellingen
+                    </a>
+                    <a
+                        href="{{ route('dashboard') }}"
+                        @if(request()->routeIs('dashboard', 'afspraken.*'))
+                            aria-current="page"
+                        @endif
+                        class="ff-nav-primary"
+                    >
+                        Afspraak inzien
+                    </a>
+                @endunless
                 <a
                     href="{{ route('profile.edit') }}"
                     @if(request()->routeIs('profile.*'))

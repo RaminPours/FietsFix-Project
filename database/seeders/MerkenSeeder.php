@@ -58,6 +58,7 @@ class MerkenSeeder extends Seeder
                     'Model' => 'Demonstratieartikel, geen officieel model',
                     ...$categorieInformatie[$categorie]['specificaties'],
                 ],
+                'voorraad' => 5,
             ]);
 
             $product->update([
@@ -68,6 +69,7 @@ class MerkenSeeder extends Seeder
                     'Model' => 'Demonstratieartikel, geen officieel model',
                     ...$categorieInformatie[$categorie]['specificaties'],
                 ],
+                'voorraad' => 5,
             ]);
 
             // Vervang alleen onze oude illustratie. Een zelf ingestelde foto blijft behouden.

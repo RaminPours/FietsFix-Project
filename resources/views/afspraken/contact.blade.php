@@ -69,7 +69,7 @@
                     ['Hoe maak ik een afspraak?', 'Log in of maak een account aan. Via ‘Plan een afspraak’ kun je je gegevens invullen en een moment kiezen.'],
                     ['Kan ik met ieder fietsmerk terecht?', 'Alle merken zijn welkom. Heb je een bijzondere fiets of een specifieke reparatievraag? Mail ons dan vooraf met het merk en type.'],
                     ['Wat kost een onderhoudsbeurt?', 'Neem contact met ons op voor de actuele prijs en mogelijkheden voor jouw fiets. Vermeld het type fiets en wat je wilt laten controleren.'],
-                    ['Wat kost een FietsFix abonnement?', 'Een zorgeloos FietsFix abonnement kost € 8,50 per maand.'],
+                    ['Wat kost een FietsFix abonnement?', 'Een zorgeloos FietsFix abonnement kost € 20 per maand (maandelijks opzegbaar). Je krijgt korting op onderhoudsbeurten en gratis pechhulp.'],
                     ['Waar vind ik mijn afspraak?', 'Na het inloggen vind je je afspraken via ‘Afspraak inzien’ in de navigatie.']
                 ] as [$question, $answer])
                     <details class="group rounded-2xl border border-slate-200 bg-white">

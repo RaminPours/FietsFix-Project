@@ -20,7 +20,7 @@
             <div>
                 <label for="aantal" class="mb-1 block font-semibold">Aantal fietsen</label>
                 <select id="aantal" name="aantal" class="ff-input" required>
-                    @for ($aantal = 1; $aantal <= 5; $aantal++)
+                    @for ($aantal = 1; $aantal <= min(5, $product->voorraad); $aantal++)
                         <option value="{{ $aantal }}" @selected(old('aantal', 1) == $aantal)>{{ $aantal }} — totaal &euro; {{ number_format($product->prijs_cent * $aantal / 100, 2, ',', '.') }}</option>
                     @endfor
                 </select>
@@ -46,7 +46,7 @@
                     @endforeach
                 </select>
             </div>
-            <button class="ff-primary" type="submit">Bestelling plaatsen — betalen in de winkel</button>
+            <button class="ff-primary" type="submit">Bestelling plaatsen & betalen in de winkel</button>
         </form>
     </section>
 @endsection

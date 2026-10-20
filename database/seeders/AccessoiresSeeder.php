@@ -39,13 +39,15 @@ class AccessoiresSeeder extends Seeder
 
         foreach ($artikelen as [$naam, $categorie, $prijs, $afbeelding, $beschrijving, $specificaties]) {
             // Opnieuw uitvoeren voegt geen dubbele artikelen toe en bewaart bestaande wijzigingen.
-            Product::firstOrCreate(['naam' => $naam], [
+            $product = Product::firstOrCreate(['naam' => $naam], [
                 'categorie' => $categorie,
                 'prijs_cent' => $prijs,
                 'afbeelding' => 'images/accessoires/'.$afbeelding.'.png',
                 'beschrijving' => $beschrijving,
                 'specificaties' => $specificaties,
+                'voorraad' => 20,
             ]);
+            $product->update(['voorraad' => 20]);
         }
     }
 }

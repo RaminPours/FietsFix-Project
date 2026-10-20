@@ -17,7 +17,7 @@ class WinkelmandController extends Controller
 
         foreach ($producten as $product) {
             $totaal += $product->prijs_cent * $mandje[$product->id];
-            if (!$product->actief) {
+            if (!$product->actief || $product->voorraad < $mandje[$product->id]) {
                 $kanBestellen = false;
             }
         }
@@ -32,8 +32,8 @@ class WinkelmandController extends Controller
         $mandje = $request->session()->get('winkelmand', []);
         $aantal = $mandje[$product->id] ?? 0;
 
-        if ($aantal >= 5) {
-            return redirect()->route('winkelmand.index')->withErrors(['aantal' => 'Je kunt maximaal 5 stuks per product bestellen.']);
+        if ($aantal >= min(5, $product->voorraad)) {
+            return redirect()->route('winkelmand.index')->withErrors(['aantal' => 'Er zijn niet meer exemplaren van dit product op voorraad.']);
         }
 
         $mandje[$product->id] = $aantal + 1;
@@ -48,6 +48,11 @@ class WinkelmandController extends Controller
         $gegevens = $request->validate(['aantal' => ['required', 'integer', 'min:1', 'max:5']]);
         $mandje = $request->session()->get('winkelmand', []);
         abort_unless(isset($mandje[$product]), 404);
+
+        $productModel = Product::findOrFail($product);
+        if (!$productModel->actief || $gegevens['aantal'] > $productModel->voorraad) {
+            return redirect()->route('winkelmand.index')->withErrors(['aantal' => 'Er zijn onvoldoende exemplaren van dit product op voorraad.']);
+        }
 
         $mandje[$product] = (int) $gegevens['aantal'];
         $this->bewaarMandje($request, $mandje);

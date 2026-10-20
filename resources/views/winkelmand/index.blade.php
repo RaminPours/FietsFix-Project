@@ -43,12 +43,11 @@
                                 @method('PATCH')
                                 <label for="aantal-{{ $productId }}" class="mb-2 block font-semibold">Aantal</label>
                                 <div class="flex gap-2">
-                                    <select id="aantal-{{ $productId }}" name="aantal" class="ff-input">
+                                    <select id="aantal-{{ $productId }}" name="aantal" class="ff-input" onchange="this.form.submit()">
                                         @for ($keuze = 1; $keuze <= 5; $keuze++)
                                             <option value="{{ $keuze }}" @selected($keuze === $aantal)>{{ $keuze }}</option>
                                         @endfor
                                     </select>
-                                    <button type="submit" class="ff-secondary">Bijwerken</button>
                                 </div>
                             </form>
                         @endif

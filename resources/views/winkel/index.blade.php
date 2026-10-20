@@ -67,16 +67,23 @@
                     @endif
                     <p class="ff-eyebrow">{{ $product->merk }} · {{ $product->categorie }}</p>
                     <h2 class="mt-2 text-2xl font-bold text-slate-900">{{ $product->naam }}</h2>
-                    <p class="mt-4 flex-1 text-slate-600">{{ \Illuminate\Support\Str::limit($product->beschrijving, 110) }}</p>
-                    <p class="my-5 text-2xl font-bold">&euro; {{ number_format($product->prijs_cent / 100, 2, ',', '.') }}</p>
-                    @unless ($accessoires)
-                        <p class="-mt-4 mb-5 text-xs text-slate-500">5% korting voor klanten met een abonnement bij FietsFix.</p>
-                    @endunless
-                    <a class="ff-primary" href="{{ route('winkel.show', $product) }}">{{ $accessoires ? 'Bekijk dit artikel' : 'Bekijk deze fiets' }}</a>
-                    <form method="POST" action="{{ route('winkelmand.toevoegen', $product) }}" class="mt-3">
-                        @csrf
-                        <button type="submit" class="ff-secondary w-full">Bestellen</button>
-                    </form>
+                    <div class="mt-auto pt-5">
+                        <p class="text-2xl font-bold">&euro; {{ number_format($product->prijs_cent / 100, 2, ',', '.') }}</p>
+                        <p class="mt-1 text-sm {{ $product->voorraad > 0 ? 'text-slate-600' : 'font-semibold text-amber-600' }}">{{ $product->voorraad > 0 ? 'Nog '.$product->voorraad.' op voorraad.' : 'Niet op voorraad.' }}</p>
+                        @unless ($accessoires)
+                            <p class="mt-1 mb-5 text-xs text-slate-500">5% korting voor klanten met een abonnement bij FietsFix.</p>
+                        @endunless
+                        <div class="space-y-3">
+                            <a class="ff-primary w-full" href="{{ route('winkel.show', $product) }}">{{ $accessoires ? 'Bekijk dit artikel' : 'Bekijk deze fiets' }}</a>
+                            @if ($product->voorraad > 0)
+                                <a class="ff-secondary w-full" href="{{ route('bestellingen.create', $product) }}">Bestellen</a>
+                                <form method="POST" action="{{ route('winkelmand.toevoegen', $product) }}">
+                                    @csrf
+                                    <button type="submit" class="ff-secondary w-full">Toevoegen aan winkelmandje</button>
+                                </form>
+                            @endif
+                        </div>
+                    </div>
                 </article>
             @empty
                 <p>{{ $accessoires ? 'Er zijn op dit moment geen accessoires in deze categorie.' : 'Er zijn op dit moment geen fietsen in deze categorie.' }}</p>

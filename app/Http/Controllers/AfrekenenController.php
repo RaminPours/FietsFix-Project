@@ -31,6 +31,9 @@ class AfrekenenController extends Controller
         ];
         $totaal = 0;
         foreach ($producten as $product) {
+            if ($product->voorraad < $mandje[$product->id]) {
+                return redirect()->route('winkelmand.index')->withErrors(['mandje' => $product->naam.' is onvoldoende op voorraad.']);
+            }
             $checkout['regels'][$product->id] = [
                 'prijs_cent' => $product->prijs_cent,
                 'formuliernummer' => (string) Str::uuid(),
@@ -72,6 +75,10 @@ class AfrekenenController extends Controller
 
         // Een transactie slaat alle artikelen samen op, of helemaal niets bij een fout.
         DB::transaction(function () use ($request, $gegevens, $checkout) {
+            if (Bestelling::where('bestelnummer', $gegevens['formuliernummer'])
+                ->where('user_id', $request->user()->id)->exists()) {
+                return;
+            }
             $producten = Product::whereIn('id', array_keys($checkout['mandje']))
                 ->orderBy('id')->lockForUpdate()->get();
 
@@ -83,11 +90,13 @@ class AfrekenenController extends Controller
                 if (!$product->actief || $product->prijs_cent !== $checkout['regels'][$product->id]['prijs_cent']) {
                     throw ValidationException::withMessages(['mandje' => 'Een artikel of prijs is gewijzigd. Controleer je winkelmandje opnieuw.']);
                 }
+                if ($product->voorraad < $checkout['mandje'][$product->id]) {
+                    throw ValidationException::withMessages(['mandje' => $product->naam.' is onvoldoende op voorraad.']);
+                }
 
                 // Prijs, product en aantal komen uit de database en de sessie, niet uit verborgen velden.
-                Bestelling::firstOrCreate([
+                Bestelling::create([
                     'formuliernummer' => $checkout['regels'][$product->id]['formuliernummer'],
-                ], [
                     'bestelnummer' => $checkout['nummer'],
                     'user_id' => $request->user()->id,
                     'product_id' => $product->id,
@@ -100,6 +109,7 @@ class AfrekenenController extends Controller
                     'vestiging' => $gegevens['vestiging'],
                     'status' => 'Ontvangen',
                 ]);
+                $product->decrement('voorraad', $checkout['mandje'][$product->id]);
             }
         });
 

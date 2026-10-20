@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Bestelling;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 class BestellingController extends Controller
 {
@@ -21,7 +23,7 @@ class BestellingController extends Controller
     public function create(Request $request, Product $product)
     {
         // Producten die niet actief zijn, kunnen niet besteld worden.
-        abort_unless($product->actief, 404);
+        abort_unless($product->actief && $product->voorraad > 0, 404);
 
         // Elk bestelformulier krijgt een eigen nummer tegen dubbel versturen.
         $formuliernummer = (string) Str::uuid();
@@ -35,13 +37,25 @@ class BestellingController extends Controller
 
     public function annuleren(Request $request, int $id)
     {
-        // Zoek alleen in de bestellingen van de ingelogde klant.
-        $bestelling = $this->bestellingVanGebruiker($request, $id);
+        // Vergrendel bestelling en product samen, zodat voorraad maar één keer wordt teruggezet.
+        $verwijderd = DB::transaction(function () use ($request, $id) {
+            $bestelling = Bestelling::where('user_id', $request->user()->id)
+                ->lockForUpdate()
+                ->findOrFail($id);
 
-        // Controleer de status ook bij het verwijderen, voor het geval die ondertussen verandert.
-        $verwijderd = Bestelling::whereKey($bestelling->id)
-            ->where('status', 'Ontvangen')
-            ->delete();
+            if ($bestelling->status !== 'Ontvangen') {
+                return false;
+            }
+
+            // Oude bestellingen zonder product-ID kunnen wel worden verwijderd, maar hebben geen voorraad om aan te vullen.
+            if ($bestelling->product_id && ($product = Product::lockForUpdate()->find($bestelling->product_id))) {
+                $product->increment('voorraad', $bestelling->aantal);
+            }
+
+            $bestelling->delete();
+
+            return true;
+        });
 
         if (!$verwijderd) {
             return redirect()->route('bestellingen.index')
@@ -71,27 +85,34 @@ class BestellingController extends Controller
             419
         );
 
-        // Neem de prijs uit de database, nooit uit een door de klant aangepast formulierveld.
-        Bestelling::firstOrCreate(['formuliernummer' => $gegevens['formuliernummer']], [
-            'user_id' => $request->user()->id,
-            'product_id' => $product->id,
-            'product_naam' => $product->naam,
-            'prijs_cent' => $product->prijs_cent,
-            'aantal' => $gegevens['aantal'],
-            'naam' => $gegevens['naam'],
-            'email' => $gegevens['email'],
-            'telefoonnummer' => $gegevens['telefoonnummer'],
-            'vestiging' => $gegevens['vestiging'],
-            'status' => 'Ontvangen',
-        ]);
+        // Controleer én verlaag de voorraad in één transactie, zodat de laatste fiets niet dubbel wordt verkocht.
+        DB::transaction(function () use ($request, $gegevens, $product) {
+            $product = Product::lockForUpdate()->findOrFail($product->id);
+
+            if (Bestelling::where('formuliernummer', $gegevens['formuliernummer'])->exists()) {
+                return;
+            }
+            if (!$product->actief || $product->voorraad < $gegevens['aantal']) {
+                throw ValidationException::withMessages(['aantal' => 'Er zijn onvoldoende exemplaren van dit product op voorraad.']);
+            }
+
+            Bestelling::create([
+                'formuliernummer' => $gegevens['formuliernummer'],
+                'user_id' => $request->user()->id,
+                'product_id' => $product->id,
+                'product_naam' => $product->naam,
+                'prijs_cent' => $product->prijs_cent,
+                'aantal' => $gegevens['aantal'],
+                'naam' => $gegevens['naam'],
+                'email' => $gegevens['email'],
+                'telefoonnummer' => $gegevens['telefoonnummer'],
+                'vestiging' => $gegevens['vestiging'],
+                'status' => 'Ontvangen',
+            ]);
+            $product->decrement('voorraad', $gegevens['aantal']);
+        });
 
         return redirect()->route('bestellingen.index')
             ->with('success', 'Je bestelling is ontvangen. Je hebt nog niet betaald. Wacht op bevestiging van de winkel voordat je de fiets ophaalt.');
-    }
-
-    private function bestellingVanGebruiker(Request $request, int $id): Bestelling
-    {
-        // Deze helper voorkomt dat dezelfde controle op eigenaarschap op meerdere plekken staat.
-        return Bestelling::where('user_id', $request->user()->id)->findOrFail($id);
     }
 }
