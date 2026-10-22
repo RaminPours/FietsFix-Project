@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 440">
+<rect width="720" height="440" rx="24" fill="#eff6f4"/>
+<ellipse cx="360" cy="358" rx="280" ry="14" fill="#d8e6e1"/>
+<g fill="#eff6f4" stroke="#263b43" stroke-width="12"><circle cx="180" cy="285" r="76"/><circle cx="550" cy="285" r="76"/></g>
+<g fill="none" stroke="#a1b5b4" stroke-width="3"><circle cx="180" cy="285" r="61"/><circle cx="550" cy="285" r="61"/><path d="M180 224v122m-61-61h122m309-61v122m-61-61h122"/></g>
+<g fill="none" stroke="#2e7867" stroke-width="14" stroke-linecap="round" stroke-linejoin="round">
+<path d="M180 285l76-123 55 123H180m76-123 99 92 140-92 55 123M311 285l184-123"/>
+</g>
+<path d="M246 163l-10-35m-25 0h58m226 34-14-58 33-14" fill="none" stroke="#263b43" stroke-width="11" stroke-linecap="round"/>
+
+<rect x="274" y="201" width="24" height="65" rx="7" fill="#263b43" transform="rotate(-24 286 233)"/><path d="m287 215-7 18h12l-7 16" fill="none" stroke="#f5cf62" stroke-width="3"/>
+<circle cx="311" cy="285" r="16" fill="#263b43"/><path d="m311 285 20 22h17" fill="none" stroke="#263b43" stroke-width="6" stroke-linecap="round"/>
+<text x="40" y="52" font-family="sans-serif" font-size="16" font-weight="bold" fill="#42615c">GAZELLE / VOORBEELD</text>
+<text x="40" y="405" font-family="sans-serif" font-size="13" fill="#59726e">Productillustratie · voorbeeldmodel</text>
+</svg>
+
