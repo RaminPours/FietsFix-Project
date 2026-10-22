@@ -60,6 +60,7 @@ Route::middleware(['auth', 'personeel'])->prefix('personeel')->name('personeel.'
     Route::patch('/voorraad/{product}/verlagen', [PersoneelController::class, 'voorraadVerlagen'])->name('voorraad.verlagen');
     Route::get('/bestellingen', [PersoneelController::class, 'bestellingen'])->name('bestellingen');
     Route::patch('/bestellingen/{bestelling}', [PersoneelController::class, 'bestellingStatusBijwerken'])->name('bestellingen.status');
+    Route::get('/planning', [PersoneelController::class, 'planning'])->name('planning');
 });
 
 require __DIR__.'/auth.php';

@@ -49,9 +49,11 @@
                 <a href="{{ route('dashboard') }}" class="ff-primary">
                     Mijn afspraken →
                 </a>
-                <a href="{{ route('afspraken.create') }}" class="ff-secondary">
-                    Afspraak maken
-                </a>
+                @unless (auth()->check() && auth()->user()->is_personeel)
+                    <a href="{{ route('afspraken.create') }}" class="ff-secondary">
+                        Afspraak maken
+                    </a>
+                @endunless
             </div>
         </article>
     </section>

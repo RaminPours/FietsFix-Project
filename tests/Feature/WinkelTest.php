@@ -69,6 +69,7 @@ class WinkelTest extends TestCase
         $this->assertDatabaseCount('bestellingen', 1);
         $this->assertDatabaseHas('bestellingen', [
             'user_id' => $user->id, 'prijs_cent' => $product->prijs_cent, 'aantal' => 2,
+            'bestelnummer' => $gegevens['formuliernummer'],
         ]);
         $product->update(['prijs_cent' => 1, 'naam' => 'Nieuwe productnaam']);
         $this->get(route('bestellingen.index'))->assertOk()->assertSee('FietsFix Stad')->assertDontSee('Nieuwe productnaam');

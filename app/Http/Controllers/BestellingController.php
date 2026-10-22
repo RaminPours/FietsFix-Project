@@ -98,6 +98,8 @@ class BestellingController extends Controller
 
             Bestelling::create([
                 'formuliernummer' => $gegevens['formuliernummer'],
+                // Een directe bestelling bestaat uit één artikel; het formuliernummer kan daarom ook als bestelnummer dienen.
+                'bestelnummer' => $gegevens['formuliernummer'],
                 'user_id' => $request->user()->id,
                 'product_id' => $product->id,
                 'product_naam' => $product->naam,

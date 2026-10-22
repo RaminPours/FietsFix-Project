@@ -27,6 +27,9 @@
                         <div>
                             <p class="ff-eyebrow">Bestelling #{{ $bestelling->id }} · {{ $bestelling->created_at->format('d-m-Y H:i') }}</p>
                             <h2 class="mt-2 text-2xl font-bold text-slate-900">{{ $bestelling->product_naam }}</h2>
+                            @if ($bestelling->bestelnummer)
+                                <p class="mt-2 break-all text-sm text-slate-500">Bestelnummer: {{ $bestelling->bestelnummer }}</p>
+                            @endif
                         </div>
                         <span class="rounded-xl bg-teal-50 px-3 py-2 text-sm font-bold text-teal-800">{{ $bestelling->status }}</span>
                     </div>

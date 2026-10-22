@@ -24,6 +24,10 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        if ($request->user()->is_personeel) {
+            return redirect()->route('personeel.index');
+        }
+
         return redirect()->intended(route('dashboard', absolute: false));
     }
 

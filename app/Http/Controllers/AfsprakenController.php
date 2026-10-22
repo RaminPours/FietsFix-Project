@@ -20,6 +20,8 @@ class AfsprakenController extends Controller
 
     public function create()
     {
+        abort_if(Auth::user()?->is_personeel, 403);
+
         // Haal de eerder ingevulde velden op, zodat de gebruiker niets opnieuw hoeft in te vullen.
         $selectie = session()->getOldInput();
 
@@ -116,6 +118,8 @@ class AfsprakenController extends Controller
 
     public function store(Request $request)
     {
+        abort_if(Auth::user()?->is_personeel, 403);
+
         // Deze knop vraagt alleen beschikbare tijden op en maakt nog geen afspraak.
         if ($request->input('actie') === 'beschikbaarheid') {
             $request->validate($this->beschikbaarheidRegels());

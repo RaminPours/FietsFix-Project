@@ -19,7 +19,7 @@
                     <p class="ff-eyebrow">Bestelling #{{ $bestelling->id }} · {{ $bestelling->created_at->format('d-m-Y') }}</p>
                     <h2 class="mt-3 text-2xl font-bold">{{ $bestelling->product_naam }}</h2>
                     @if ($bestelling->bestelnummer)
-                        <p class="mt-2 break-all text-sm text-slate-500">Onderdeel van bestelling {{ $bestelling->bestelnummer }}</p>
+                        <p class="mt-2 break-all text-sm text-slate-500">Bestelnummer: {{ $bestelling->bestelnummer }}</p>
                     @endif
                     <dl class="mt-5 grid gap-4 sm:grid-cols-2">
                         <div><dt class="font-semibold">Aantal</dt><dd>{{ $bestelling->aantal }}</dd></div>

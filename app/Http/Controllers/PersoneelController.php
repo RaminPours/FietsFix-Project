@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bestelling;
+use App\Models\Afspraken;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,8 +16,11 @@ class PersoneelController extends Controller
     {
         $openstaandeBestellingen = Bestelling::where('status', 'Ontvangen')->count();
         $lageVoorraad = Product::where('voorraad', '<=', 2)->orderBy('voorraad')->get();
+        $werkplaatsAfspraken = Afspraken::whereDate('datum', '>=', now()->toDateString())->count();
+        $uur = now('Europe/Amsterdam')->hour;
+        $begroeting = $uur < 12 ? 'Goedemorgen' : ($uur < 18 ? 'Goedemiddag' : 'Goedenavond');
 
-        return view('personeel.index', compact('openstaandeBestellingen', 'lageVoorraad'));
+        return view('personeel.index', compact('openstaandeBestellingen', 'lageVoorraad', 'werkplaatsAfspraken', 'begroeting'));
     }
 
     public function voorraad()
@@ -24,6 +28,33 @@ class PersoneelController extends Controller
         $producten = Product::orderBy('naam')->get();
 
         return view('personeel.voorraad', compact('producten'));
+    }
+
+    public function planning(Request $request)
+    {
+        $gegevens = $request->validate([
+            'vestiging' => ['nullable', 'string', Rule::in(config('vestigingen.locaties'))],
+        ]);
+
+        $vestigingen = config('vestigingen.locaties');
+        $vestiging = $gegevens['vestiging'] ?? null;
+
+        if ($vestiging === null) {
+            $eerstvolgendeAfspraak = Afspraken::whereDate('datum', '>=', now()->toDateString())
+                ->orderBy('datum')
+                ->orderBy('tijd')
+                ->first();
+
+            $vestiging = $eerstvolgendeAfspraak?->vestiging ?? $vestigingen[0];
+        }
+
+        $afspraken = Afspraken::where('vestiging', $vestiging)
+            ->whereDate('datum', '>=', now()->toDateString())
+            ->orderBy('datum')
+            ->orderBy('tijd')
+            ->get();
+
+        return view('personeel.planning', compact('afspraken', 'vestigingen', 'vestiging'));
     }
 
     public function voorraadAanvullen(Request $request, Product $product)
