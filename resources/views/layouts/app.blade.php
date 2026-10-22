@@ -43,7 +43,7 @@
                     <p class="mt-3 text-sm leading-relaxed text-slate-400 sm:mt-4">FietsFix, Hoofdstraat 123, 1234 AB Fietsstad</p>
                 </div>
 
-                <div>
+                <div class="lg:ml-auto">
                     <h2 class="font-semibold text-white">Klantenservice</h2>
                     <a href="{{ route('contact') }}" class="mt-3 inline-block max-w-full text-sm leading-relaxed text-slate-400 underline decoration-slate-600 underline-offset-4 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400 sm:mt-4">
                         Beschikbaar van maandag tot en met vrijdag van 9:00 tot 17:00 uur
