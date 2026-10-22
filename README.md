@@ -1,59 +1,52 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# FietsFix
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+FietsFix is een webapplicatie voor een fietsenwinkel. Klanten kunnen fietsen en
+accessoires bekijken, een proefrit of onderhoudsafspraak aanvragen en producten
+bestellen om in de winkel af te halen. Medewerkers beheren vanuit een afgeschermd
+dashboard de afspraken, bestellingen en voorraad.
 
-## About Laravel
+De applicatie brengt de belangrijkste zaken van de winkel samen op één plek: van
+het eerste bezoek aan de webshop tot het plannen van werkplaatsafspraken en het
+verwerken van bestellingen.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Wat kun je ermee?
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **Fietsen en accessoires bekijken** — blader door het assortiment, filter op
+  categorie of merk en bekijk productinformatie en specificaties.
+- **Een winkelmandje en bestelling maken** — verzamel artikelen in een mandje en
+  plaats na inloggen een bestelling. De bestelling is bedoeld voor afhalen in de
+  winkel; online betalen is niet ingericht.
+- **Afspraken aanvragen** — plan een onderhoudsbeurt of vraag een proefrit aan.
+  Klanten kunnen hun afspraken terugzien in hun account.
+- **Bestellingen volgen** — klanten bekijken hun bestellingen en kunnen een
+  bestelling annuleren zolang dat is toegestaan.
+- **Winkelwerk beheren** — medewerkers bekijken de planning, werken
+  bestelstatussen bij en beheren de voorraad via het personeelsdashboard.
+- **Accounts gebruiken** — registratie en inloggen geven toegang tot persoonlijke
+  bestellingen, afspraken en profielinstellingen.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Gebouwd met
 
-## Learning Laravel
+FietsFix is gemaakt met **Laravel 12**, **PHP 8.2+**, Blade, Vite en SQLite als
+standaard lokale database. Laravel verzorgt onder meer de routes, database,
+validatie en accounts. De pagina's zijn opgebouwd met Blade-templates.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## Lokaal starten
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Benodigd: PHP 8.2 of hoger, Composer, Node.js en npm.
 
-## Laravel Sponsors
+```sh
+composer run setup
+php artisan db:seed --class=ProductSeeder
+composer run dev
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+De setup installeert de PHP- en JavaScript-afhankelijkheden, maakt een lokale
+`.env` aan, genereert een applicatiesleutel, voert migraties uit en bouwt de
+frontend. De seeder voegt voorbeeldfietsen, accessoires en merken toe. Met
+`composer run dev` start je de Laravel-server en Vite voor lokale ontwikkeling.
 
-### Premium Partners
+## Technische documentatie
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Meer informatie over de fietswinkel, het assortiment en bestelproces staat in
+[`docs/fietswinkel.md`](docs/fietswinkel.md).
