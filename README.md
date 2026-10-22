@@ -27,7 +27,7 @@ verwerken van bestellingen.
 
 ## Gebouwd met
 
-FietsFix is gemaakt met **Laravel 12**, **PHP 8.2+**, Blade, Vite en SQLite als
+FietsFix is gemaakt met **Laravel 12**, **PHP 8.2+**, Blade, Vite en MYSQL als
 standaard lokale database. Laravel verzorgt onder meer de routes, database,
 validatie en accounts. De pagina's zijn opgebouwd met Blade-templates.
 
